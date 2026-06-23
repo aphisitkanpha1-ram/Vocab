@@ -1,0 +1,1810 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vocab Booster - แพลตฟอร์มทบทวนคำศัพท์อัจฉริยะ</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter & Prompt) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', 'Prompt', sans-serif;
+        }
+        /* Custom Flashcard Flip Animations */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .preserve-3d {
+            transform-style: preserve-3d;
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        /* Glassmorphism effects */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+        }
+        .dark-glass-card {
+            background: rgba(15, 23, 42, 0.9);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('dashboard')">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <div>
+                    <span class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Vocab Booster</span>
+                    <span class="text-xs block text-slate-500 font-medium">เพื่อนแท้ฝึกคำศัพท์ภาษาอังกฤษ</span>
+                </div>
+            </div>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex space-x-1">
+                <button onclick="switchView('dashboard')" id="nav-dashboard" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors text-indigo-600 bg-indigo-50">แดชบอร์ด</button>
+                <button onclick="switchView('flashcards')" id="nav-flashcards" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100">แฟลชการ์ด</button>
+                <button onclick="switchView('quiz')" id="nav-quiz" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100">ทำแบบทดสอบ</button>
+                <button onclick="switchView('match')" id="nav-match" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100">จับคู่คำศัพท์</button>
+                <button onclick="switchView('wordlist')" id="nav-wordlist" class="px-4 py-2 rounded-lg text-sm font-medium transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100">คลังศัพท์ของฉัน</button>
+            </nav>
+
+            <!-- Quick Add Button -->
+            <div class="flex items-center space-x-2">
+                <button onclick="openAddWordModal()" class="flex items-center space-x-1 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg text-sm font-medium shadow-md shadow-indigo-100 transition-all duration-200 transform hover:scale-[1.02]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+                    </svg>
+                    <span>เพิ่มศัพท์ใหม่</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Navigation Bottom Bar -->
+    <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 z-40 px-2 py-1 shadow-2xl flex justify-around">
+        <button onclick="switchView('dashboard')" id="mobile-nav-dashboard" class="flex flex-col items-center py-1 px-3 text-indigo-600">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
+            </svg>
+            <span class="text-[10px] mt-1 font-medium">แดชบอร์ด</span>
+        </button>
+        <button onclick="switchView('flashcards')" id="mobile-nav-flashcards" class="flex flex-col items-center py-1 px-3 text-slate-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            </svg>
+            <span class="text-[10px] mt-1 font-medium">แฟลชการ์ด</span>
+        </button>
+        <button onclick="switchView('quiz')" id="mobile-nav-quiz" class="flex flex-col items-center py-1 px-3 text-slate-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <span class="text-[10px] mt-1 font-medium">ทดสอบ</span>
+        </button>
+        <button onclick="switchView('match')" id="mobile-nav-match" class="flex flex-col items-center py-1 px-3 text-slate-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+            </svg>
+            <span class="text-[10px] mt-1 font-medium">จับคู่</span>
+        </button>
+        <button onclick="switchView('wordlist')" id="mobile-nav-wordlist" class="flex flex-col items-center py-1 px-3 text-slate-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+            </svg>
+            <span class="text-[10px] mt-1 font-medium">คลังศัพท์</span>
+        </button>
+    </div>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full pb-24 md:pb-8">
+        
+        <!-- View 1: Dashboard -->
+        <section id="view-dashboard" class="space-y-8">
+            <!-- Greeting Header -->
+            <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+                <div class="absolute -right-16 -top-16 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl"></div>
+                <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-violet-500/20 rounded-full blur-3xl"></div>
+                
+                <div class="relative z-10 max-w-2xl">
+                    <span class="bg-indigo-500/30 text-indigo-300 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider">Dashboard Overview</span>
+                    <h1 class="text-3xl sm:text-4xl font-bold mt-3 mb-2 tracking-tight">ยินดีต้อนรับสู่ คลังการเรียนรู้ส่วนตัว</h1>
+                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                        พัฒนาคลังศัพท์ในทุกวันระบบช่วยให้เรียนรู้และจดจำมีประสิทธิภาพสูงตามหลักการ Spaced Repetition และโหมดเขียนตามคำบอก
+                    </p>
+                    
+                    <div class="mt-6 flex flex-wrap gap-3">
+                        <button onclick="switchView('flashcards')" class="bg-white hover:bg-slate-100 text-slate-900 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md">เริ่มฝึกด้วยแฟลชการ์ด</button>
+                        <button onclick="switchView('quiz')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md border border-indigo-500/30">ทดสอบความพร้อม</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-500 block font-medium">คำศัพท์ทั้งหมด</span>
+                        <span id="stat-total-words" class="text-2xl font-bold text-slate-900">0</span>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-500 block font-medium">ต้องทบทวนวันนี้ (SRS Due)</span>
+                        <span id="stat-due-words" class="text-2xl font-bold text-indigo-600">0</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-500 block font-medium">จำได้ขึ้นใจ</span>
+                        <span id="stat-mastered-words" class="text-2xl font-bold text-slate-900">0</span>
+                    </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-sm flex items-center space-x-4">
+                    <div class="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="text-xs text-slate-500 block font-medium">อัตราการจดจำ</span>
+                        <span id="stat-mastery-rate" class="text-2xl font-bold text-slate-900">0%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Layout Grid (Dual Column) -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left: Quick Action Decks -->
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-xl font-bold text-slate-900">หมวดหมู่คำศัพท์แนะนำ</h2>
+                        <span class="text-xs text-indigo-600 font-semibold cursor-pointer hover:underline" onclick="switchView('wordlist')">ดูทั้งหมด</span>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <!-- Card: Custom Initial Deck -->
+                        <div class="bg-indigo-50/50 p-5 rounded-2xl border-2 border-indigo-200 hover:shadow-md transition-all group flex flex-col justify-between">
+                            <div>
+                                <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                    ⭐
+                                </div>
+                                <h3 class="font-bold text-slate-950 text-base">ศัพท์ชุดแรกของฉัน</h3>
+                                <p class="text-slate-500 text-xs mt-1">คลังคำศัพท์เริ่มต้นจำนวน 42 คำเพื่อปูพื้นฐานการทบทวน</p>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between border-t border-slate-200/60 pt-3">
+                                <span class="text-[11px] text-slate-400 font-medium">42 คำศัพท์ชุดหลัก</span>
+                                <button onclick="loadPresetDeck('firstSet')" class="text-indigo-600 hover:text-indigo-700 text-xs font-semibold flex items-center gap-1 group">
+                                    โหลดชุดนี้
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card: General Vocabulary -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 hover:shadow-md transition-all group flex flex-col justify-between">
+                            <div>
+                                <div class="w-10 h-10 bg-slate-50 text-slate-600 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                    🗣️
+                                </div>
+                                <h3 class="font-bold text-slate-950 text-base">General Vocabulary</h3>
+                                <p class="text-slate-500 text-xs mt-1">รวบรวมคำศัพท์พื้นฐานทั่วไปที่ใช้บ่อยในชีวิตประจำวัน</p>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+                                <span class="text-[11px] text-slate-400 font-medium">30 คำศัพท์ตัวอย่าง</span>
+                                <button onclick="loadPresetDeck('general')" class="text-indigo-600 hover:text-indigo-700 text-xs font-semibold flex items-center gap-1 group">
+                                    โหลดชุดนี้
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Card: TOEIC/Business Vocabulary -->
+                        <div class="bg-white p-5 rounded-2xl border border-slate-200 hover:shadow-md transition-all group flex flex-col justify-between">
+                            <div>
+                                <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
+                                    💼
+                                </div>
+                                <h3 class="font-bold text-slate-950 text-base">TOEIC & Business</h3>
+                                <p class="text-slate-500 text-xs mt-1">คัดเน้นศัพท์พบบ่อยในข้อสอบ TOEIC และแวดวงธุรกิจการทำงาน</p>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
+                                <span class="text-[11px] text-slate-400 font-medium">30 คำศัพท์ตัวอย่าง</span>
+                                <button onclick="loadPresetDeck('toeic')" class="text-emerald-600 hover:text-emerald-700 text-xs font-semibold flex items-center gap-1 group">
+                                    โหลดชุดนี้
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- App Features Explain Section -->
+                    <div class="bg-indigo-50 rounded-2xl p-6 border border-indigo-100/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                        <div class="flex items-center space-x-4">
+                            <span class="text-3xl">💡</span>
+                            <div>
+                                <h4 class="font-bold text-slate-900">เพิ่มคำศัพท์ในแบบของตัวคุณเอง !</h4>
+                                <p class="text-slate-600 text-sm">บันทึกคำศัพท์ที่พบนอกตำราเรียน เข้ามาเรียนรู้และทบทวนในระบบได้ทันที</p>
+                            </div>
+                        </div>
+                        <button onclick="openAddWordModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2.5 rounded-xl whitespace-nowrap shadow-sm shadow-indigo-100">เพิ่มคำศัพท์ใหม่</button>
+                    </div>
+                </div>
+
+                <!-- Right: Daily Challenges / Fast facts -->
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200">
+                        <h3 class="font-bold text-slate-900 text-lg mb-4 flex items-center gap-2">
+                            <span>🎯</span> เกร็ดความรู้ประจำวัน
+                        </h3>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="text-indigo-600 text-xs font-bold uppercase tracking-wider block mb-1">Active Recall Tip</span>
+                            <p class="text-slate-700 text-sm leading-relaxed">
+                                การพยายามนึกคำศัพท์ด้วยตัวเองผ่าน **แฟลชการ์ด** มีประสิทธิภาพมากกว่าการนั่งอ่านทวนไปเรื่อย ๆ หลายเท่านัก !
+                            </p>
+                        </div>
+                        <div class="mt-4 border-t border-slate-100 pt-4 text-center">
+                            <p class="text-xs text-slate-400">พัฒนาโดยผู้ช่วยจัดการโปรเจกต์ของคุณ</p>
+                        </div>
+                    </div>
+
+                    <!-- Daily Goal Tracker -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200">
+                        <h3 class="font-bold text-slate-900 text-lg mb-4">เป้าหมายประจำวัน</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between text-xs font-medium mb-1">
+                                    <span class="text-slate-600">ทบทวนแฟลชการ์ด</span>
+                                    <span class="text-indigo-600" id="goal-flashcard-text">0/10 ใบ</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-1.5">
+                                    <div class="bg-indigo-600 h-1.5 rounded-full" id="goal-flashcard-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs font-medium mb-1">
+                                    <span class="text-slate-600">ทำแบบทดสอบให้ถูกต้อง</span>
+                                    <span class="text-emerald-600" id="goal-quiz-text">0/5 ข้อ</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-1.5">
+                                    <div class="bg-emerald-500 h-1.5 rounded-full" id="goal-quiz-bar" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 2: Flashcards -->
+        <section id="view-flashcards" class="hidden max-w-2xl mx-auto space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 font-semibold">ทบทวนศัพท์ : แฟลชการ์ด (SRS)</h2>
+                    <p class="text-slate-500 text-sm">ทบทวนตามหลัก Forgetting Curve และฝึกความจำตามระยะเวลา</p>
+                </div>
+                <!-- Filters & Listening Mode Toggle -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <!-- Toggle Due Only -->
+                    <select id="flashcard-filter" onchange="filterFlashcardDeck()" class="text-xs bg-white border border-slate-200 rounded-lg px-3 py-2 font-medium text-slate-700 focus:outline-none">
+                        <option value="due">เฉพาะที่ต้องทบทวนวันนี้</option>
+                        <option value="all">คำศัพท์ทั้งหมด</option>
+                    </select>
+
+                    <!-- Listening Mode Toggle Button -->
+                    <button id="listening-mode-toggle" onclick="toggleListeningMode()" class="flex items-center space-x-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-2 rounded-lg text-xs font-semibold transition-all">
+                        <span id="listening-toggle-icon">🎧</span>
+                        <span id="listening-toggle-text">เปิดโหมดฝึกฟัง</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress status info -->
+            <div class="flex justify-between items-center text-xs text-slate-400 font-medium px-1">
+                <span id="flashcard-deck-type-info">โหมด : กำลังเปิดคำศัพท์ที่ต้องทบทวนวันนี้</span>
+                <span id="flashcard-progress" class="bg-slate-200/60 text-slate-600 px-2 py-1 rounded-md font-bold">0/0</span>
+            </div>
+
+            <!-- Empty State for Flashcards -->
+            <div id="flashcard-empty-state" class="hidden bg-white border border-slate-200 rounded-3xl p-12 text-center space-y-4">
+                <div class="text-5xl">🎉</div>
+                <h3 class="text-xl font-bold text-slate-900">ไม่มีคำศัพท์ที่ถึงกำหนดทบทวนในขณะนี้</h3>
+                <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed">
+                    เก่งมาก ! คุณทำการทบทวนคำศัพท์ที่ควรทบทวนของวันนี้ครบเรียบร้อยแล้ว ลองสลับตัวกรองเป็น **"คำศัพท์ทั้งหมด"** หรือเปลี่ยนไปฝึกฝนด้วยเกมอื่น ๆ ได้ทันที
+                </p>
+                <div class="flex justify-center gap-3">
+                    <button onclick="setFlashcardFilterToAll()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">เรียนรู้คำศัพท์ทั้งหมด</button>
+                    <button onclick="switchView('dashboard')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-2.5 rounded-xl font-semibold text-sm">กลับหน้าหลัก</button>
+                </div>
+            </div>
+
+            <!-- Active Flashcard Container -->
+            <div id="flashcard-interactive-container" class="space-y-6">
+                <!-- Flashcard Widget -->
+                <div id="vocab-card" class="perspective-1000 w-full min-h-[26rem] md:min-h-[24rem]">
+                    <div id="vocab-card-inner" class="preserve-3d relative w-full h-full min-h-[26rem] md:min-h-[24rem] transition-transform duration-500 ease-out transform">
+                        
+                        <!-- Front of Card (English Word or Listening Mode Input) -->
+                        <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 rounded-3xl p-8 flex flex-col justify-between text-white shadow-xl shadow-indigo-100 backface-hidden">
+                            <div class="flex justify-between items-center">
+                                <span class="bg-indigo-500/30 text-indigo-100 text-xs px-3 py-1.5 rounded-full font-semibold uppercase tracking-wider" id="card-front-badge">English</span>
+                                <button onclick="speakWord(event)" class="w-10 h-10 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-all" title="ออกเสียง">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <!-- Main Front Card Body -->
+                            <div class="my-auto space-y-6">
+                                <!-- Normal Mode Content -->
+                                <div id="card-front-normal-content" class="text-center space-y-2">
+                                    <h3 id="flashcard-english" class="text-4xl sm:text-5xl font-extrabold tracking-tight">Vocab</h3>
+                                    <p id="flashcard-ipa" class="text-indigo-200 text-sm font-medium tracking-wide font-mono"></p>
+                                </div>
+
+                                <!-- Listening Mode Content -->
+                                <div id="card-front-listening-content" class="hidden text-center space-y-5 max-w-sm mx-auto">
+                                    <div class="flex flex-col items-center justify-center space-y-2">
+                                        <button onclick="speakWord(event)" class="w-20 h-20 bg-white/10 hover:bg-white/20 text-white rounded-full flex items-center justify-center transition-all animate-pulse text-3xl">
+                                            🔊
+                                        </button>
+                                        <span class="text-sm font-bold text-indigo-200">What did you hear?</span>
+                                        <p class="text-xs text-indigo-300">กรุณาฟังเสียง แล้วสะกดคำศัพท์นี้ให้ถูกต้อง</p>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <input type="text" id="listening-user-input" placeholder="พิมพ์คำศัพท์ภาษาอังกฤษที่ได้ยิน..." class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-center text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-white placeholder-indigo-200">
+                                        <button onclick="checkListeningAnswer(event)" class="w-full bg-white hover:bg-slate-100 text-indigo-700 font-bold py-2 rounded-xl text-sm transition-all">
+                                            ตรวจคำตอบ
+                                        </button>
+                                    </div>
+                                    <div id="listening-feedback-msg" class="text-xs font-bold text-rose-300 min-h-[1.25rem]"></div>
+                                </div>
+                            </div>
+
+                            <div class="text-center text-xs text-indigo-200 font-medium tracking-wider" id="card-front-tip">
+                                แตะสัมผัสตัวการ์ดเพื่อดูเฉลยคำแปล
+                            </div>
+                        </div>
+
+                        <!-- Back of Card (Thai translation & SRS Rating controls) -->
+                        <div class="absolute inset-0 bg-white border-2 border-indigo-600 rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-slate-800 shadow-xl backface-hidden rotate-y-180">
+                            <div class="flex justify-between items-center">
+                                <span class="bg-indigo-50 text-indigo-600 text-xs px-3 py-1.5 rounded-full font-semibold uppercase tracking-wider">คำแปลภาษาไทย</span>
+                                <button onclick="speakWord(event)" class="w-10 h-10 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center transition-all text-slate-600">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                                    </svg>
+                                </button>
+                            </div>
+                            
+                            <div class="text-center my-auto space-y-4">
+                                <!-- Revealed English Word to double check -->
+                                <div class="text-xs font-bold text-slate-400 tracking-wide uppercase">
+                                    คำศัพท์ : <span id="flashcard-revealed-english" class="text-slate-700 font-mono text-sm">Word</span>
+                                </div>
+                                <h3 id="flashcard-thai" class="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight">ความหมาย</h3>
+                                <div id="flashcard-example-container" class="max-w-md mx-auto text-slate-500 text-xs sm:text-sm italic border-t border-slate-100 pt-3 hidden">
+                                    “<span id="flashcard-example">Example sentence.</span>”
+                                </div>
+                            </div>
+
+                            <div class="text-center text-xs text-slate-400 font-medium tracking-wider">
+                                แตะเพื่อพลิกหน้าแรกกลับคืน
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spaced Repetition SRS Actions (Always visible to let users grade themselves) -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
+                    <span class="block text-center text-xs font-bold text-slate-500 uppercase tracking-wider">ประเมินผลการเรียนรู้ของคำนี้ (SRS) :</span>
+                    <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
+                        <!-- Again -->
+                        <button onclick="gradeWordSRS(0)" class="flex flex-col items-center justify-center p-2 bg-rose-50 hover:bg-rose-100 border border-rose-200 text-rose-800 rounded-xl transition-all">
+                            <span class="text-sm sm:text-base">🔴</span>
+                            <span class="text-[10px] font-bold mt-1">วันนี้</span>
+                            <span class="text-[9px] text-rose-500/80">ทบทวนซ้ำ</span>
+                        </button>
+                        <!-- Hard -->
+                        <button onclick="gradeWordSRS(1)" class="flex flex-col items-center justify-center p-2 bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-800 rounded-xl transition-all">
+                            <span class="text-sm sm:text-base">🟡</span>
+                            <span class="text-[10px] font-bold mt-1">1 วัน</span>
+                            <span class="text-[9px] text-amber-600/80">ยาก</span>
+                        </button>
+                        <!-- Good -->
+                        <button onclick="gradeWordSRS(2)" class="flex flex-col items-center justify-center p-2 bg-blue-50 hover:bg-blue-100 border border-blue-200 text-blue-800 rounded-xl transition-all">
+                            <span class="text-sm sm:text-base">🟢</span>
+                            <span class="text-[10px] font-bold mt-1">3 วัน</span>
+                            <span class="text-[9px] text-blue-600/80">ปานกลาง</span>
+                        </button>
+                        <!-- Easy -->
+                        <button onclick="gradeWordSRS(3)" class="flex flex-col items-center justify-center p-2 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 text-emerald-800 rounded-xl transition-all">
+                            <span class="text-sm sm:text-base">🔵</span>
+                            <span class="text-[10px] font-bold mt-1">7 วัน</span>
+                            <span class="text-[9px] text-emerald-600/80">ง่าย</span>
+                        </button>
+                        <!-- Very Easy -->
+                        <button onclick="gradeWordSRS(4)" class="flex flex-col items-center justify-center p-2 bg-violet-50 hover:bg-violet-100 border border-violet-200 text-violet-800 rounded-xl transition-all">
+                            <span class="text-sm sm:text-base">🟣</span>
+                            <span class="text-[10px] font-bold mt-1">14 วัน</span>
+                            <span class="text-[9px] text-violet-600/80">ง่ายมาก</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Manual Navigation Buttons -->
+                <div class="flex justify-between items-center text-slate-500 font-medium text-sm">
+                    <button onclick="prevFlashcard()" class="hover:text-slate-800 flex items-center gap-1 bg-slate-100 px-4 py-2 rounded-xl">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                        ย้อนกลับ
+                    </button>
+                    <button onclick="resetFlashcardDeck()" class="hover:text-slate-800 flex items-center gap-1 bg-slate-100 px-4 py-2 rounded-xl">
+                        <span>🔄</span> เริ่มต้นใหม่
+                    </button>
+                    <button onclick="nextFlashcard()" class="hover:text-slate-800 flex items-center gap-1 bg-slate-100 px-4 py-2 rounded-xl">
+                        ข้ามคำนี้
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 3: Quiz -->
+        <section id="view-quiz" class="hidden max-w-xl mx-auto space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 font-semibold">ทดสอบ : แบบฝึกความหมาย</h2>
+                    <p class="text-slate-500 text-sm">สะสมคะแนนเพิ่มพูนอัตราการจำได้แม่นยำ</p>
+                </div>
+                <div id="quiz-badge" class="bg-indigo-50 text-indigo-700 font-bold text-sm px-3.5 py-1.5 rounded-full border border-indigo-100">
+                    ข้อที่ 0/0
+                </div>
+            </div>
+
+            <!-- Quiz Empty State -->
+            <div id="quiz-empty-state" class="hidden bg-white border border-slate-200 rounded-3xl p-12 text-center space-y-4">
+                <div class="text-5xl">📝</div>
+                <h3 class="text-xl font-bold text-slate-900">จำนวนคำศัพท์ไม่เพียงพอ</h3>
+                <p class="text-slate-500 text-sm max-w-md mx-auto">
+                    ต้องมีคำศัพท์อย่างน้อย 4 คำขึ้นพื่อสุ่มจัดสร้างชุดแบบทดสอบปรนัยได้ถูกต้อง
+                </p>
+                <div class="flex justify-center gap-3">
+                    <button onclick="loadPresetDeck('firstSet')" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">โหลดศัพท์ชุดแรก (42 ศัพท์)</button>
+                </div>
+            </div>
+
+            <!-- Quiz Main Panel -->
+            <div id="quiz-main-panel" class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-md space-y-6">
+                <!-- Quiz Progress Bar -->
+                <div class="w-full bg-slate-100 rounded-full h-2">
+                    <div id="quiz-bar" class="bg-indigo-600 h-2 rounded-full" style="width: 0%"></div>
+                </div>
+
+                <!-- Word Subject Panel -->
+                <div class="text-center py-6 space-y-2 border-b border-slate-100">
+                    <span class="text-indigo-600 font-bold text-xs uppercase tracking-wider block">ความหมายของคำว่า... คืออะไร ?</span>
+                    <h3 id="quiz-word-display" class="text-3xl sm:text-4xl font-extrabold text-slate-950">EnglishWord</h3>
+                    <div class="flex justify-center mt-2">
+                        <button onclick="speakQuizWord()" class="text-slate-400 hover:text-indigo-600 flex items-center gap-1.5 text-xs font-semibold bg-slate-50 hover:bg-indigo-50 px-3 py-1.5 rounded-full border border-slate-100 transition-colors">
+                            🔊 เล่นเสียงอ่าน
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Multiple Choices Options Layout -->
+                <div class="grid grid-cols-1 gap-3.5" id="quiz-options-container">
+                    <!-- Dynamic Choices loaded from JS -->
+                </div>
+
+                <!-- Next Action Controls -->
+                <div id="quiz-action-container" class="hidden border-t border-slate-100 pt-5 flex justify-between items-center">
+                    <div id="quiz-feedback-text" class="font-bold text-sm">
+                        <!-- Correct/Incorrect message -->
+                    </div>
+                    <button id="quiz-next-btn" onclick="nextQuizQuestion()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl font-semibold text-sm flex items-center gap-2 shadow-md">
+                        คำถามถัดไป 
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Results Panel -->
+            <div id="quiz-results-panel" class="hidden bg-white border border-slate-200 rounded-3xl p-8 shadow-md text-center space-y-6">
+                <div class="text-6xl" id="quiz-score-emoji">🏆</div>
+                <div>
+                    <h3 class="text-2xl font-extrabold text-slate-900">สรุปคะแนนของคุณ</h3>
+                    <p class="text-slate-500 text-sm mt-1">เก่งมาก ! พัฒนาความจำคำศัพท์อย่างต่อเนื่อง</p>
+                </div>
+                
+                <div class="bg-indigo-50 rounded-2xl p-6 border border-indigo-100 max-w-xs mx-auto">
+                    <span class="text-indigo-700 text-3xl font-extrabold" id="quiz-score-display">0/0</span>
+                    <span class="block text-xs font-medium text-indigo-500/80 mt-1">ตอบถูกต้องทั้งหมด</span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row justify-center gap-3">
+                    <button onclick="startQuiz()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">เริ่มทดสอบอีกครั้ง</button>
+                    <button onclick="switchView('dashboard')" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-2.5 rounded-xl font-semibold text-sm">กลับสู่แดชบอร์ด</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- View 4: Matching Game -->
+        <section id="view-match" class="hidden max-w-4xl mx-auto space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 font-semibold">เกมจับคู่การ์ดคำศัพท์ (Matching)</h2>
+                    <p class="text-slate-500 text-sm">คลิกเลือกการ์ดคำศัพท์ภาษาอังกฤษและคำแปลภาษาไทยที่สอดคล้องกันให้ครบถ้วนเพื่อทำลายการ์ด</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <span id="match-timer" class="bg-slate-900 text-white font-bold text-sm px-4 py-2 rounded-xl shadow-md min-w-[100px] text-center">เวลา : 0.0s</span>
+                    <button onclick="initMatchGame()" class="bg-indigo-600 text-white px-4 py-2 rounded-xl text-sm font-semibold shadow hover:bg-indigo-700">เริ่มใหม่</button>
+                </div>
+            </div>
+
+            <!-- Game Board Empty State -->
+            <div id="match-empty-state" class="hidden bg-white border border-slate-200 rounded-3xl p-12 text-center space-y-4">
+                <div class="text-5xl">🃏</div>
+                <h3 class="text-xl font-bold text-slate-900">จำนวนคำศัพท์ไม่เพียงพอ</h3>
+                <p class="text-slate-500 text-sm max-w-md mx-auto">
+                    กรุณาโหลดคลังคำศัพท์ตัวอย่าง หรือเพิ่มคำศัพท์อย่างน้อย 6 คำขึ้นเพื่อเริ่มเล่นเกมจับคู่
+                </p>
+                <button onclick="loadPresetDeck('firstSet')" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">โหลดชุดศัพท์แรก (42 ศัพท์)</button>
+            </div>
+
+            <!-- Game Grid Layout -->
+            <div id="match-game-board" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <!-- Word Cards will be generated and shuffled here -->
+            </div>
+
+            <!-- Success modal (In-game overlays) -->
+            <div id="match-success-overlay" class="hidden bg-emerald-50 border border-emerald-200 p-6 rounded-3xl text-center space-y-3">
+                <div class="text-4xl">🎉</div>
+                <h4 class="text-xl font-bold text-emerald-900">จับคู่สำเร็จเสร็จสิ้น !</h4>
+                <p class="text-emerald-700 text-sm">คุณใช้เวลาในการเคลียร์บอร์ดนี้ไปทั้งหมด : <span id="match-final-time" class="font-extrabold text-slate-900">0s</span></p>
+                <button onclick="initMatchGame()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">ท้าทายใหม่อีกรอบ</button>
+            </div>
+        </section>
+
+        <!-- View 5: Word List (Vocabulary List Manager) -->
+        <section id="view-wordlist" class="hidden space-y-6">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-slate-900 font-semibold">คลังคำศัพท์ของฉัน</h2>
+                    <p class="text-slate-500 text-sm">จัดการคำศัพท์ของคุณในแบบปรับแต่งเอง สามารถเพิ่ม ค้นหา หรือลบคำศัพท์ได้ตามชอบ</p>
+                </div>
+                <div class="flex flex-wrap gap-2 w-full sm:w-auto">
+                    <input type="text" id="vocab-search-input" oninput="searchVocabulary()" placeholder="ค้นหาคำศัพท์/คำแปล..." class="flex-grow sm:flex-initial text-sm bg-white border border-slate-200 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <button onclick="openAddWordModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2.5 rounded-xl text-sm font-semibold shadow-sm shadow-indigo-100 flex items-center gap-1.5 whitespace-nowrap">
+                        <span>➕</span> เพิ่มคำศัพท์
+                    </button>
+                </div>
+            </div>
+
+            <!-- Preset Pack Actions -->
+            <div class="bg-slate-100/50 rounded-2xl p-4 border border-slate-200/50 flex flex-wrap gap-3 items-center">
+                <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">โคลนชุดคำศัพท์ด่วน : </span>
+                <button onclick="loadPresetDeck('firstSet')" class="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 text-xs px-3.5 py-2 rounded-xl font-semibold shadow-sm">
+                    ⭐ ศัพท์ชุดแรกของฉัน (42 คำ)
+                </button>
+                <button onclick="loadPresetDeck('general')" class="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 text-xs px-3.5 py-2 rounded-xl font-semibold shadow-sm">
+                    🗣️ General Vocab (30 คำ)
+                </button>
+                <button onclick="loadPresetDeck('toeic')" class="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 text-xs px-3.5 py-2 rounded-xl font-semibold shadow-sm">
+                    💼 TOEIC/Business (30 คำ)
+                </button>
+                <button onclick="clearAllWords()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs px-3.5 py-2 rounded-xl font-semibold shadow-sm ml-auto">
+                    ⚠️ ล้างคลังคำศัพท์ทั้งหมด
+                </button>
+            </div>
+
+            <!-- Vocabulary Table / Cards Grid -->
+            <div class="bg-white border border-slate-200 rounded-3xl overflow-hidden shadow-sm">
+                <!-- Mobile Card view & Desktop table hybrid -->
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-200 text-slate-600 text-xs font-bold uppercase tracking-wider">
+                                <th class="py-4 px-6">คำศัพท์ภาษาอังกฤษ</th>
+                                <th class="py-4 px-6">ความหมายภาษาไทย</th>
+                                <th class="py-4 px-6">ตัวอย่างประโยค</th>
+                                <th class="py-4 px-6 text-center">ข้อมูล/สถานะ (SRS)</th>
+                                <th class="py-4 px-6 text-right">การจัดการ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="word-table-body" class="divide-y divide-slate-100 text-sm text-slate-700">
+                            <!-- Words will be dynamically listed here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <!-- Table Empty State -->
+                <div id="table-empty-state" class="hidden p-12 text-center space-y-3">
+                    <div class="text-4xl">🏷️</div>
+                    <h4 class="font-bold text-slate-800 text-lg font-semibold">ยังไม่มีคำศัพท์ใด ๆ ในคลังของคุณ</h4>
+                    <p class="text-slate-400 text-xs max-w-sm mx-auto">ลองกดนำเข้าชุดคำศัพท์แนะนำเพื่อสัมผัสและเริ่มใช้งานฟังก์ชันระบบได้ทันที</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal Layout: Add / Edit Word -->
+    <div id="add-word-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl w-full max-w-md shadow-2xl overflow-hidden border border-slate-100 flex flex-col transform scale-95 opacity-0 transition-all duration-300" id="word-modal-content">
+            <!-- Header -->
+            <div class="bg-indigo-950 p-6 text-white flex justify-between items-center">
+                <div>
+                    <h3 class="text-lg font-bold" id="modal-title-text">เพิ่มคำศัพท์ใหม่เข้าระบบ</h3>
+                    <p class="text-indigo-200 text-xs">กรอกรายละเอียดเพื่อจัดเก็บคลังข้อมูลของคุณ</p>
+                </div>
+                <button onclick="closeAddWordModal()" class="text-indigo-200 hover:text-white transition-colors text-2xl font-light">&times;</button>
+            </div>
+
+            <!-- Content Form -->
+            <form id="vocab-form" onsubmit="handleWordSubmit(event)" class="p-6 space-y-4">
+                <input type="hidden" id="edit-word-id">
+                
+                <div>
+                    <label for="modal-input-word" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">คำศัพท์ภาษาอังกฤษ *</label>
+                    <input type="text" id="modal-input-word" placeholder="เช่น Accomplish" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div>
+                    <label for="modal-input-definition" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">ความหมายภาษาไทย *</label>
+                    <input type="text" id="modal-input-definition" placeholder="เช่น ทำงานสำเร็จลุล่วง, บรรลุผล" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div>
+                    <label for="modal-input-ipa" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">คำอ่านภาษาอังกฤษ (ถ้ามี)</label>
+                    <input type="text" id="modal-input-ipa" placeholder="เช่น /əˈkʌm.plɪʃ/" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+
+                <div>
+                    <label for="modal-input-example" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">ตัวอย่างประโยคประกอบความเข้าใจ (ถ้ามี)</label>
+                    <textarea id="modal-input-example" rows="2" placeholder="เช่น You can accomplish anything with hard work." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                </div>
+
+                <!-- Action Button -->
+                <div class="flex space-x-3 pt-3">
+                    <button type="button" onclick="closeAddWordModal()" class="w-1/2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl py-2.5 font-bold text-sm transition-colors">ยกเลิก</button>
+                    <button type="submit" class="w-1/2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl py-2.5 font-bold text-sm shadow-md shadow-indigo-100 transition-all">บันทึกข้อมูล</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JavaScript Control Block -->
+    <script>
+        // Default Sample Decks Data
+        const PRESET_DECKS = {
+            // Updated custom user deck (42 vocabularies) with default SRS metrics
+            firstSet: [
+                { id: "fs-1", word: "Prevent", definition: "ป้องกัน", ipa: "/prɪˈvent/", example: "Regular exercises can help prevent many health issues.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-2", word: "Contribute", definition: "มีส่วนร่วม/ให้", ipa: "/kənˈtrɪb.juːt/", example: "We are encouraged to contribute ideas to the project development.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-3", word: "Convey", definition: "ส่ง", ipa: "/kənˈveɪ/", example: "Please convey my best wishes and greetings to your family.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-4", word: "Convene", definition: "ประชุม", ipa: "/kənˈviːn/", example: "The members will convene in the main hall tomorrow afternoon.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-5", word: "Insist", definition: "ยืนกราน", ipa: "/hɪnˈsɪst/", example: "They insist on completing the task before the deadline arrives.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-6", word: "Intend", definition: "ตั้งใจที่จะ", ipa: "/ɪnˈtend/", example: "I intend to buy a professional dictionary for studying.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-7", word: "Attempt", definition: "พยายาม", ipa: "/əˈtempt/", example: "Do not attempt to operate the machine without standard training.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-8", word: "Inform", definition: "แจ้ง", ipa: "/ɪnˈfɔːrm/", example: "Please inform us of any modifications as soon as possible.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-9", word: "Scattered", definition: "วางกระจัดกระจาย", ipa: "/ˈskæt.əd/", example: "Several design papers were scattered across the workspace.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-10", word: "Rug", definition: "พรม", ipa: "/rʌɡ/", example: "She placed a small woolen rug next to the office desk.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-11", word: "Hanging/Suspend", definition: "แขวน", ipa: "/ˈhæŋ.ɪŋ/ / /səˈspend/", example: "A group of vintage frames are hanging on the office wall.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-12", word: "Against", definition: "ติดอยู่กับ", ipa: "/əˈɡenst/", example: "Please put the temporary partition panels against the window.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-13", word: "Notice", definition: "ประกาศ/สังเกต", ipa: "/ˈnəʊ.tɪs/", example: "Did you notice any system alerts during the process execution?", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-14", word: "Drawer", definition: "ลิ้นชัก", ipa: "/drɔːr/", example: "The contracts and key papers are stored in the second drawer.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-15", word: "Take off", definition: "ถอดออก", ipa: "/teɪk ɒf/", example: "We request visitors to take off their shoes before entering.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-16", word: "Fence", definition: "รั้ว", ipa: "/fens/", example: "They installed a high steel fence around the factory property.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-17", word: "Suitcase/Luggage", definition: "กระเป๋าเดินทาง", ipa: "/ˈsuːt.keɪs/ / /ˈlʌɡ.ɪdʒ/", example: "The business travelers left their heavy luggage at the desk.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-18", word: "Vendor", definition: "ผู้ขาย", ipa: "/ˈven.dɔːr/", example: "The equipment vendor offered a comprehensive system discount.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-19", word: "Change", definition: "เงินทอน", ipa: "/tʃeɪndʒ/", example: "Make sure you receive the correct change from the cashier.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-20", word: "Binder", definition: "แฟ้มเอกสาร", ipa: "/ˈbaɪn.dər/", example: "She organized the client specifications in a blue binder.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-21", word: "Overlook", definition: "มองข้าม", ipa: "/ˌəʊ.vəˈlʊk/", example: "We must not overlook any structural flaws during inspection.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-22", word: "Mounted", definition: "ถูกติด", ipa: "/ˈmaʊn.tɪd/", example: "The display system was mounted securely on the steel column.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-23", word: "Aisle", definition: "/aɪl/", example: "Please keep the central aisle clear of any storage boxes.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-24", word: "Cushions", definition: "หมอนอิง", ipa: "/ˈkʊʃ.ənz/", example: "We added comfortable grey cushions to the reception sofa.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-25", word: "Garage", definition: "โรงจอดรถ", ipa: "/ˈɡær.ɑːʒ/", example: "The company vehicles are parked in the underground garage.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-26", word: "Ceiling", definition: "เพดาน", ipa: "/ˈsiː.lɪŋ/", example: "The maintenance workers are repairing the ceiling lights.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-27", word: "Patio", definition: "ชานบ้าน", ipa: "/ˈpæt.i.əʊ/", example: "Employees can enjoy their lunch breaks on the outdoor patio.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-28", word: "Utensils", definition: "เครื่องมือเครื่องใช้", ipa: "/juːˈten.sɪlz/", example: "All cooking utensils must be cleaned after being used.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-29", word: "Pile", definition: "กอง/สุม", ipa: "/paɪl/", example: "There is a pile of recycled paper beside the printer.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-30", word: "Canopy", definition: "เต็นท์", ipa: "/ˈkæn.ə.pi/", example: "The event team set up a white canvas canopy for shade.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-31", word: "Escalator", definition: "บันไดเลื่อน", ipa: "/ˈes.kə.leɪ.tər/", example: "Use the escalator to access the main exhibition floor.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-32", word: "Stop by", definition: "แวะ", ipa: "/stɒp baɪ/", example: "Please stop by the human resources office this afternoon.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-33", word: "Involved", definition: "เกี่ยวข้อง", ipa: "/ɪnˈvɒlvd/", example: "The marketing director is fully involved in this campaign.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-34", word: "Upstairs", definition: "ชั้นบน", ipa: "/ˌʌpˈsteəz/", example: "The management offices are situated upstairs on floor four.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-35", word: "Revised", definition: "แก้ไข", ipa: "/rɪˈvaɪzd/", example: "Please distribute the revised schedule to all teammates.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-36", word: "Suppose", definition: "น่าจะ", ipa: "/səˈpəʊz/", example: "I suppose the meeting will be completed within an hour.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-37", word: "Back-ordered", definition: "สั่งซื้อเพิ่มเติม", ipa: "/ˈbækˌɔː.dəd/", example: "The replacement parts are back-ordered and delayed.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-38", word: "Warranty", definition: "การรับประกัน", ipa: "/ˈwɒr.ən.ti/", example: "This machine equipment is covered under a full warranty.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-39", word: "Give a tour", definition: "พาเดินดู", ipa: "/ɡɪv ə tʊər/", example: "The host will give a tour of the laboratory facility.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-40", word: "Appointment", definition: "การนัดหมาย", ipa: "/əˈpɔɪnt.mənt/", example: "I scheduled an official appointment with the client.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-41", word: "Admit", definition: "ตอบรับ", ipa: "/ədˈmɪt/", example: "They finally admitted that the timeline was too tight.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-42", word: "Enclose", definition: "ห้อมล้อม/โอบล้อม", ipa: "/ɪnˈkləʊz/", example: "They plan to enclose the garden with a brick wall.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 }
+            ],
+            general: [
+                { id: "gen-1", word: "Abandon", definition: "ละทิ้ง, ปล่อยทิ้ง", ipa: "/əˈbæn.dən/", example: "He decided to abandon the project.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-2", word: "Benevolent", definition: "เมตตากรุณา, ใจดี", ipa: "/bəˈnev.əl.ənt/", example: "A benevolent donor funded the school.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-3", word: "Cooperate", definition: "ร่วมมือ, ประสานงาน", ipa: "/koʊˈɑː.pə.reɪt/", example: "Teams need to cooperate to win.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-4", word: "Devote", definition: "อุทิศตน, มอบให้", ipa: "/dɪˈvoʊt/", example: "She devoted her life to art.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-5", word: "Efficient", definition: "มีประสิทธิภาพสูง", ipa: "/ɪˈfɪʃ.ənt/", example: "This system is highly efficient.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-6", word: "Fascinating", definition: "น่าดึงดูดใจ, น่าหลงใหล", ipa: "/ˈfæs.ən.eɪ.tɪŋ/", example: "The history of Egypt is fascinating.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-7", word: "Genuine", definition: "แท้จริง, แท้", ipa: "/ˈdʒen.ju.ɪn/", example: "This is genuine leather.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-8", word: "Hazardous", definition: "เป็นอันตราย, เสี่ยงภัย", ipa: "/ˈhæz.ɚ.dəs/", example: "Toxic waste is hazardous to health.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-9", word: "Imitate", definition: "เลียนแบบ, ทำตามอย่าง", ipa: "/ˈɪm.ə.teɪt/", example: "Parrots can imitate human voices.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-10", word: "Jealous", definition: "อิจฉา, ขี้หึง", ipa: "/ˈdʒel.əs/", example: "He grew jealous of his friend.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-11", word: "Knowledgeable", definition: "รอบรู้, มีความรู้กว้างขวาง", ipa: "/ˈnɑː.lɪ.dʒə.bəl/", example: "Our guide was very knowledgeable.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-12", word: "Lucrative", definition: "สร้างกำไรงาม, มีผลตอบแทนสูง", ipa: "/ˈluː.krə.t̬ɪv/", example: "The business proved to be lucrative.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-13", word: "Maintain", definition: "รักษาไว้, ดูแลคงอยู่", ipa: "/meɪnˈteɪn/", example: "You should maintain your car well.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-14", word: "Negotiate", definition: "เจรจาต่อรอง", ipa: "/nəˈɡoʊ.ʃi.eɪt/", example: "We negotiated a fair settlement.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-15", word: "Obvious", definition: "เด่นชัด, ชัดเจนมาก", ipa: "/ˈɑːb.vi.əs/", example: "There is an obvious error here.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-16", word: "Plausible", definition: "น่าเชื่อถือ, สมเหตุสมผล", ipa: "/ˈplɑː.zə.bəl/", example: "His story sounds plausible.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-17", word: "Reliable", definition: "เชื่อถือได้, วางใจได้", ipa: "/rɪˈlaɪ.ə.bəl/", example: "She is a reliable employee.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-18", word: "Sufficient", definition: "พอเพียง, เพียงพอ", ipa: "/səˈfɪʃ.ənt/", example: "Five hours of sleep is not sufficient.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-19", word: "Thrive", definition: "เจริญงอกงาม, เติบโตดี", ipa: "/θraɪv/", example: "Children thrive with proper nourishment.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-20", word: "Vague", definition: "คลุมเครือ, ไม่ชัดเจน", ipa: "/veɪɡ/", example: "She gave a vague description.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-21", word: "Withstand", definition: "ทนทาน, ต้านทานต่อ", ipa: "/wɪðˈstænd/", example: "Concrete structures withstand earthquakes.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-22", word: "Yawn", definition: "หาวนอน", ipa: "/jɑːn/", example: "The boring speech made her yawn.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-23", word: "Zealous", definition: "กระตือรือร้น, มีไฟเต็มเปี่ยม", ipa: "/ˈzel.əs/", example: "The zealous youth supported reform.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-24", word: "Abolish", definition: "ล้มเลิก, ยกเลิกอย่างสิ้นเชิง", ipa: "/əˈbɑː.lɪʃ/", example: "Slavery was abolished in 1865.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-25", word: "Bewilder", definition: "ทำให้งุนงงสับสน", ipa: "/bɪˈwɪl.dɚ/", example: "The math exam bewildered her.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-26", word: "Concrete", definition: "เป็นรูปธรรม, คอนกรีต", ipa: "/ˈkɑːn.kriːt/", example: "We need concrete proof first.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-27", word: "Drastic", definition: "รุนแรงกระทันหัน, เด็ดขาด", ipa: "/ˈdræs.tɪk/", example: "They made drastic changes overnight.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-28", word: "Eccentric", definition: "แปลกประหลาด, พิสดาร", ipa: "/ɪkˈsen.trɪk/", example: "An eccentric inventor lived next door.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-29", word: "Flexible", definition: "ยืดหยุ่นได้ดี, ดัดง่าย", ipa: "/ˈflek.sə.bəl/", example: "A flexible work schedule is great.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "gen-30", word: "Gratitude", definition: "ความรู้สึกกตัญญู, ขอบคุณ", ipa: "/ˈɡræt̬.ə.tuːd/", example: "Express your gratitude to your peers.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 }
+            ],
+            toeic: [
+                { id: "toe-1", word: "Adjourn", definition: "เลื่อนเวลาออกไป, พักการประชุม", ipa: "/əˈdʒɝːn/", example: "The board adjourned the meeting until Monday.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-2", word: "Brokerage", definition: "ค่านายหน้า, ธุรกิจนายหน้า", ipa: "/ˈbroʊ.kər.ɪdʒ/", example: "The brokerage handles stock trading.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-3", word: "Collaborate", definition: "ร่วมงานกัน, จับมือทำงานร่วม", ipa: "/kəˈlæb.ə.reɪt/", example: "They collaborate with foreign developers.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-4", word: "Deficit", definition: "การขาดดุล, ปริมาณขาดทุน", ipa: "/ˈdef.ə.sɪt/", example: "The company reported a trade deficit.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-5", word: "Endorse", definition: "สลักหลัง, ให้การรับรองอนุมัติ", ipa: "/ɪnˈdɔːrs/", example: "Celebrities endorse this new product.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-6", word: "Fluctuate", definition: "ผันผวน, ขึ้น ๆ ลง ๆ ไม่คงที่", ipa: "/ˈflʌk.tʃu.eɪt/", example: "Oil prices fluctuate on international markets.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-7", word: "Guarantee", definition: "การรับประกัน, สัญญาประกัน", ipa: "/ˌɡær.ənˈtiː/", example: "We guarantee the machine for one year.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-8", word: "Incentive", definition: "สิ่งกระตุ้นจูงใจ, เงินโบนัสพิเศษ", ipa: "/ɪnˈsen.t̬ɪv/", example: "The company offers bonus incentives.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-9", word: "Jeopardize", definition: "ทำให้ตกอยู่ในความเสี่ยงอันตราย", ipa: "/ˈdʒep.ɚ.daɪz/", example: "Bad decisions could jeopardize the deal.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-10", word: "Liability", definition: "หนี้สิน, ความรับผิดชอบตามกฎหมาย", ipa: "/ˌlaɪ.əˈbɪl.ə.t̬i/", example: "Insurance covered our legal liability.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-11", word: "Merger", definition: "การควบรวมกิจการเข้าด้วยกัน", ipa: "/ˈmɝː.dʒɚ/", example: "The merger of the two companies failed.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-12", word: "Nominate", definition: "เสนอชื่อเข้ารับตำแหน่ง", ipa: "/ˈnɑː.mə.neɪt/", example: "She nominated him as director.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-13", word: "Outsource", definition: "จัดจ้างบุคคลภายนอกทำงานแทน", ipa: "/ˈaʊt.sɔːrs/", example: "We outsource our billing department.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-14", word: "Portfolio", definition: "ผลงานสะสม, แฟ้มผลงาน", ipa: "/pɔːrtˈfoʊ.li.oʊ/", example: "His investment portfolio is diversified.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-15", word: "Quota", definition: "โควตา, สัดส่วนจำนวนขั้นต่ำ", ipa: "/ˈkwoʊ.t̬ə/", example: "The import quota has been reached.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-16", word: "Revenue", definition: "รายได้ทั้งหมดของบริษัท", ipa: "/ˈrev.ə.nuː/", example: "Annual revenue increased by fifteen percent.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-17", word: "Stipulate", definition: "ระบุเงื่อนไขข้อตกลงอย่างเป็นทางการ", ipa: "/ˈstɪp.jə.leɪt/", example: "The contract stipulates a delivery date.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-18", word: "Transaction", definition: "ธุรกรรมทางการเงิน", ipa: "/trænˈzæk.ʃən/", example: "They finalized the bank transaction.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-19", word: "Unanimous", definition: "มีมติเป็นเอกฉันท์, เป็นเสียงเดียวกัน", ipa: "/juːˈnæn.ə.məs/", example: "The board reached a unanimous decision.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-20", word: "Vacancy", definition: "ตำแหน่งงานที่ว่าง", ipa: "/ˈveɪ.kən.si/", example: "There is a job vacancy at the bank.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-21", word: "Warranty", definition: "ใบรับประกันคุณภาพสินค้า", ipa: "/ˈwɔːr.ən.t̬i/", example: "The TV is under a two-year warranty.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-22", word: "Yield", definition: "ผลผลิต, อัตราผลตอบแทน", ipa: "/jiːld/", example: "The government bonds yield good returns.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-23", word: "Acquisition", definition: "การซื้อกิจการ, การได้มาครอบครอง", ipa: "/ˌæk.wəˈzɪʃ.ən/", example: "The company's new acquisition was costly.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-24", word: "Budget", definition: "งบประมาณประจำปี", ipa: "/ˈbʌdʒ.ɪt/", example: "The marketing budget is very tight.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-25", word: "Delegation", definition: "คณะผู้แทน, คณะตัวแทน", ipa: "/ˌdel.əˈɡeɪ.ʃən/", example: "A Chinese delegation arrived yesterday.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-26", word: "Evaluate", definition: "ประเมินค่า, ประเมินผลงาน", ipa: "/ɪˈvæl.ju.eɪt/", example: "We must evaluate our progress weekly.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-27", word: "Forecast", definition: "พยากรณ์คาดเดาความคืบหน้า", ipa: "/ˈfɔːr.kæst/", example: "The sales forecast is very positive.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-28", word: "Inventory", definition: "สินค้าคงคลัง, บัญชีสินค้าเหลือง", ipa: "/ˈɪn.vən.tɔːr.i/", example: "We take inventory of supplies every month.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-29", word: "Monopolize", definition: "ผูกขาดตลาดทางการค้า", ipa: "/məˈnɑː.pəl.aɪz/", example: "They seek to monopolize the tech industry.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "toe-30", word: "Overtime", definition: "ทำงานล่วงเวลา, ค่าล่วงเวลา", ipa: "/ˈoʊ.vɚ.taɪm/", example: "They worked overtime to finish the job.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 }
+            ]
+        };
+
+        // State variables
+        let appWords = [];
+        let flashcardIndex = 0;
+        let isCardFlipped = false;
+        
+        // SRS and Filter options for Flashcards
+        let currentFlashcardFilter = 'due'; // 'due' (only words with nextReviewDate <= now) or 'all'
+        let isListeningModeActive = false;
+        let listeningChecked = false;
+
+        // Quiz state
+        let quizQuestions = [];
+        let quizCurrentIndex = 0;
+        let quizScore = 0;
+        let selectedQuizOptionIdx = null;
+
+        // Match Game state
+        let matchCards = [];
+        let firstSelectedCard = null;
+        let secondSelectedCard = null;
+        let matchTimerInterval = null;
+        let matchStartTime = 0;
+        let matchMatchesFound = 0;
+        let isBoardLocked = false;
+
+        // Daily Tracker Goal Progress
+        let dailyGoals = {
+            flashcardsDone: 0,
+            quizzesPassed: 0
+        };
+
+        // Initialize application
+        window.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            if (appWords.length === 0) {
+                // Pre-populate with our newly loaded First Custom Set initially
+                appWords = [...PRESET_DECKS.firstSet];
+                saveToLocalStorage();
+            }
+            // Sanitize checking to guarantee SRS fields exist in older records
+            sanitizeWordsSRSData();
+            updateAllStats();
+            switchView('dashboard');
+            
+            // Listen to escape key or touch outer boundary to close modal
+            document.getElementById('add-word-modal').addEventListener('click', (e) => {
+                if (e.target.id === 'add-word-modal') closeAddWordModal();
+            });
+
+            // Prevent card-flip when interacting with input inside Listening Mode
+            document.getElementById('listening-user-input').addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+            document.getElementById('listening-user-input').addEventListener('keydown', (e) => {
+                e.stopPropagation();
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    checkListeningAnswer(e);
+                }
+            });
+        });
+
+        // Ensure all objects have Spaced Repetition schema values
+        function sanitizeWordsSRSData() {
+            let modified = false;
+            appWords.forEach(w => {
+                if (w.reviewCount === undefined) { w.reviewCount = 0; modified = true; }
+                if (w.easeFactor === undefined) { w.easeFactor = 2.5; modified = true; }
+                if (w.interval === undefined) { w.interval = 0; modified = true; }
+                if (w.nextReviewDate === undefined) { w.nextReviewDate = 0; modified = true; }
+            });
+            if (modified) {
+                saveToLocalStorage();
+            }
+        }
+
+        // LocalStorage logic
+        function saveToLocalStorage() {
+            localStorage.setItem('vocab_booster_words', JSON.stringify(appWords));
+            localStorage.setItem('vocab_booster_goals', JSON.stringify(dailyGoals));
+        }
+
+        function loadFromLocalStorage() {
+            const savedWords = localStorage.getItem('vocab_booster_words');
+            const savedGoals = localStorage.getItem('vocab_booster_goals');
+            if (savedWords) appWords = JSON.parse(savedWords);
+            if (savedGoals) dailyGoals = JSON.parse(savedGoals);
+        }
+
+        // View Navigator
+        function switchView(viewId) {
+            // Hide all sections
+            document.getElementById('view-dashboard').classList.add('hidden');
+            document.getElementById('view-flashcards').classList.add('hidden');
+            document.getElementById('view-quiz').classList.add('hidden');
+            document.getElementById('view-match').classList.add('hidden');
+            document.getElementById('view-wordlist').classList.add('hidden');
+
+            // Reset navigation active classes
+            const navIds = ['dashboard', 'flashcards', 'quiz', 'match', 'wordlist'];
+            navIds.forEach(id => {
+                const navBtn = document.getElementById(`nav-${id}`);
+                const mobBtn = document.getElementById(`mobile-nav-${id}`);
+                if (navBtn) {
+                    navBtn.className = "px-4 py-2 rounded-lg text-sm font-medium transition-colors text-slate-600 hover:text-slate-900 hover:bg-slate-100";
+                }
+                if (mobBtn) {
+                    mobBtn.className = "flex flex-col items-center py-1 px-3 text-slate-500";
+                }
+            });
+
+            // Show and configure target view
+            const activeView = document.getElementById(`view-${viewId}`);
+            if (activeView) activeView.classList.remove('hidden');
+
+            // Set navigation status to Active
+            const activeNavBtn = document.getElementById(`nav-${viewId}`);
+            const activeMobBtn = document.getElementById(`mobile-nav-${viewId}`);
+            if (activeNavBtn) {
+                activeNavBtn.className = "px-4 py-2 rounded-lg text-sm font-medium transition-colors text-indigo-600 bg-indigo-50";
+            }
+            if (activeMobBtn) {
+                activeMobBtn.className = "flex flex-col items-center py-1 px-3 text-indigo-600";
+            }
+
+            // Stop games intervals if switching away from match
+            if (viewId !== 'match') {
+                clearInterval(matchTimerInterval);
+                matchTimerInterval = null;
+            }
+
+            // View-specific loaders
+            if (viewId === 'dashboard') {
+                updateAllStats();
+            } else if (viewId === 'flashcards') {
+                initFlashcards();
+            } else if (viewId === 'quiz') {
+                startQuiz();
+            } else if (viewId === 'match') {
+                initMatchGame();
+            } else if (viewId === 'wordlist') {
+                renderWordList();
+            }
+        }
+
+        // Update Statistics
+        function updateAllStats() {
+            const total = appWords.length;
+            const learning = appWords.filter(w => w.status === 'learning').length;
+            const mastered = appWords.filter(w => w.status === 'mastered').length;
+            
+            const now = Date.now();
+            const due = appWords.filter(w => w.nextReviewDate <= now).length;
+            
+            const rate = total > 0 ? Math.round((mastered / total) * 100) : 0;
+
+            document.getElementById('stat-total-words').innerText = total;
+            document.getElementById('stat-due-words').innerText = due;
+            document.getElementById('stat-mastered-words').innerText = mastered;
+            document.getElementById('stat-mastery-rate').innerText = `${rate}%`;
+
+            // Daily Goals Render
+            document.getElementById('goal-flashcard-text').innerText = `${dailyGoals.flashcardsDone}/10 ใบ`;
+            const fcPercent = Math.min(100, (dailyGoals.flashcardsDone / 10) * 100);
+            document.getElementById('goal-flashcard-bar').style.width = `${fcPercent}%`;
+
+            document.getElementById('goal-quiz-text').innerText = `${dailyGoals.quizzesPassed}/5 ข้อ`;
+            const qPercent = Math.min(100, (dailyGoals.quizzesPassed / 5) * 100);
+            document.getElementById('goal-quiz-bar').style.width = `${qPercent}%`;
+        }
+
+        // Add Words Modal Handler
+        function openAddWordModal(wordId = null) {
+            const modal = document.getElementById('add-word-modal');
+            const content = document.getElementById('word-modal-content');
+            
+            // Edit mode setup
+            if (wordId) {
+                const target = appWords.find(w => w.id === wordId);
+                if (target) {
+                    document.getElementById('edit-word-id').value = target.id;
+                    document.getElementById('modal-input-word').value = target.word;
+                    document.getElementById('modal-input-definition').value = target.definition;
+                    document.getElementById('modal-input-ipa').value = target.ipa || '';
+                    document.getElementById('modal-input-example').value = target.example || '';
+                    document.getElementById('modal-title-text').innerText = "แก้ไขข้อมูลคำศัพท์";
+                }
+            } else {
+                // Create mode setup
+                document.getElementById('vocab-form').reset();
+                document.getElementById('edit-word-id').value = '';
+                document.getElementById('modal-title-text').innerText = "เพิ่มคำศัพท์ใหม่เข้าระบบ";
+            }
+
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function closeAddWordModal() {
+            const modal = document.getElementById('add-word-modal');
+            const content = document.getElementById('word-modal-content');
+            
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 300);
+        }
+
+        function handleWordSubmit(event) {
+            event.preventDefault();
+            const idInput = document.getElementById('edit-word-id').value;
+            const wordVal = document.getElementById('modal-input-word').value.trim();
+            const definitionVal = document.getElementById('modal-input-definition').value.trim();
+            const ipaVal = document.getElementById('modal-input-ipa').value.trim();
+            const exampleVal = document.getElementById('modal-input-example').value.trim();
+
+            if (idInput) {
+                // Update Word
+                const idx = appWords.findIndex(w => w.id === idInput);
+                if (idx !== -1) {
+                    appWords[idx].word = wordVal;
+                    appWords[idx].definition = definitionVal;
+                    appWords[idx].ipa = ipaVal;
+                    appWords[idx].example = exampleVal;
+                }
+            } else {
+                // Create New Word with default SRS
+                const newObj = {
+                    id: 'custom-' + Date.now(),
+                    word: wordVal,
+                    definition: definitionVal,
+                    ipa: ipaVal,
+                    example: exampleVal,
+                    status: 'new',
+                    reviewCount: 0,
+                    easeFactor: 2.5,
+                    interval: 0,
+                    nextReviewDate: 0
+                };
+                appWords.unshift(newObj);
+            }
+
+            saveToLocalStorage();
+            updateAllStats();
+            closeAddWordModal();
+            renderWordList();
+        }
+
+        function deleteWord(wordId) {
+            appWords = appWords.filter(w => w.id !== wordId);
+            saveToLocalStorage();
+            updateAllStats();
+            renderWordList();
+        }
+
+        function loadPresetDeck(deckType) {
+            const preset = PRESET_DECKS[deckType];
+            if (!preset) return;
+
+            // Clear and overwrite with chosen preset to keep it clean, or merge
+            appWords = [...preset];
+
+            saveToLocalStorage();
+            updateAllStats();
+            renderWordList();
+            
+            // Simple visual response
+            const showMessage = document.createElement('div');
+            showMessage.className = "fixed bottom-5 right-5 bg-slate-900 text-white text-sm px-4 py-2.5 rounded-xl z-50 shadow-lg border border-slate-700";
+            showMessage.innerText = `นำเข้าหมวดหมู่ ${deckType.toUpperCase()} สำเร็จ เรียบร้อย !`;
+            document.body.appendChild(showMessage);
+            setTimeout(() => showMessage.remove(), 2500);
+        }
+
+        function clearAllWords() {
+            if (confirm("ต้องการล้างคลังคำศัพท์ทั้งหมดในระบบ ใช่หรือไม่?")) {
+                appWords = [];
+                saveToLocalStorage();
+                updateAllStats();
+                renderWordList();
+            }
+        }
+
+        // Search in wordlist
+        function searchVocabulary() {
+            const query = document.getElementById('vocab-search-input').value.toLowerCase().trim();
+            renderWordList(query);
+        }
+
+        function renderWordList(filterQuery = "") {
+            const tbody = document.getElementById('word-table-body');
+            const emptyState = document.getElementById('table-empty-state');
+            tbody.innerHTML = '';
+
+            const filtered = appWords.filter(w => 
+                w.word.toLowerCase().includes(filterQuery) || 
+                w.definition.toLowerCase().includes(filterQuery)
+            );
+
+            if (filtered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            filtered.forEach(w => {
+                let badgeStyle = "bg-blue-50 text-blue-700 border-blue-100";
+                let statusThai = "คำศัพท์ใหม่";
+                if (w.status === 'learning') {
+                    badgeStyle = "bg-amber-50 text-amber-700 border-amber-100";
+                    statusThai = "กำลังทบทวน";
+                } else if (w.status === 'mastered') {
+                    badgeStyle = "bg-emerald-50 text-emerald-700 border-emerald-100";
+                    statusThai = "จำขึ้นใจแล้ว";
+                }
+
+                const srsCount = w.reviewCount || 0;
+                const nextDate = w.nextReviewDate ? new Date(w.nextReviewDate).toLocaleDateString('th-TH', {day: 'numeric', month: 'short'}) : 'พร้อมทบทวน';
+
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors";
+                tr.innerHTML = `
+                    <td class="py-4 px-6">
+                        <div class="font-bold text-slate-900">${w.word}</div>
+                        ${w.ipa ? `<div class="text-xs text-slate-400 font-mono mt-0.5">${w.ipa}</div>` : ''}
+                    </td>
+                    <td class="py-4 px-6 text-slate-700">${w.definition}</td>
+                    <td class="py-4 px-6 text-slate-500 max-w-xs truncate">${w.example || '-'}</td>
+                    <td class="py-4 px-6 text-center">
+                        <div class="flex flex-col items-center space-y-1">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold border ${badgeStyle}">
+                                ${statusThai}
+                            </span>
+                            <span class="text-[10px] text-slate-400">ทบทวนแล้ว : ${srsCount} ครั้ง</span>
+                            <span class="text-[10px] text-indigo-500 font-semibold">กำหนดถัดไป : ${nextDate}</span>
+                        </div>
+                    </td>
+                    <td class="py-4 px-6 text-right">
+                        <div class="flex items-center justify-end space-x-2">
+                            <button onclick="openAddWordModal('${w.id}')" class="text-indigo-600 hover:text-indigo-800 p-1.5 rounded-lg hover:bg-indigo-50" title="แก้ไข">
+                                ✏️
+                            </button>
+                            <button onclick="deleteWord('${w.id}')" class="text-rose-600 hover:text-rose-800 p-1.5 rounded-lg hover:bg-rose-50" title="ลบ">
+                                🗑️
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Speech Engine using SpeechSynthesis API
+        function speakWord(event) {
+            if (event) event.stopPropagation(); // Avoid card-flip action trigger
+            
+            let targetText = '';
+            if (document.getElementById('view-flashcards').classList.contains('hidden') === false) {
+                const card = filteredDeck[flashcardIndex];
+                targetText = card?.word;
+            } else if (document.getElementById('view-quiz').classList.contains('hidden') === false) {
+                targetText = quizQuestions[quizCurrentIndex]?.word;
+            }
+
+            if (!targetText) return;
+
+            const synth = window.speechSynthesis;
+            if (synth.speaking) synth.cancel();
+
+            // Strip out slashes or alternates for clean TTS output
+            const cleanText = targetText.split('/')[0].trim();
+
+            const utter = new SpeechSynthesisUtterance(cleanText);
+            utter.lang = 'en-US';
+            utter.rate = 0.85;
+            synth.speak(utter);
+        }
+
+        function speakQuizWord() {
+            speakWord(null);
+        }
+
+
+        // Spaced Repetition (SRS) Flashcards Logic
+        let filteredDeck = [];
+
+        function filterFlashcardDeck() {
+            const filterSelect = document.getElementById('flashcard-filter').value;
+            currentFlashcardFilter = filterSelect;
+            initFlashcards();
+        }
+
+        function setFlashcardFilterToAll() {
+            document.getElementById('flashcard-filter').value = 'all';
+            currentFlashcardFilter = 'all';
+            initFlashcards();
+        }
+
+        function initFlashcards() {
+            const emptyS = document.getElementById('flashcard-empty-state');
+            const mainContainer = document.getElementById('flashcard-interactive-container');
+            const filterInfo = document.getElementById('flashcard-deck-type-info');
+
+            const now = Date.now();
+            if (currentFlashcardFilter === 'due') {
+                filteredDeck = appWords.filter(w => w.nextReviewDate <= now);
+                filterInfo.innerText = "โหมด : กำลังทบทวนคำศัพท์ที่ถึงกำหนดของวันนี้ (SRS Due)";
+            } else {
+                filteredDeck = [...appWords];
+                filterInfo.innerText = "โหมด : กำลังทบทวนคำศัพท์ทั้งหมดในคลังระบบ";
+            }
+
+            if (filteredDeck.length === 0) {
+                emptyS.classList.remove('hidden');
+                mainContainer.classList.add('hidden');
+                document.getElementById('flashcard-progress').innerText = "0/0";
+                return;
+            } else {
+                emptyS.classList.add('hidden');
+                mainContainer.classList.remove('hidden');
+            }
+
+            flashcardIndex = 0;
+            resetCardFlip();
+            renderActiveFlashcard();
+        }
+
+        function renderActiveFlashcard() {
+            const card = filteredDeck[flashcardIndex];
+            if (!card) return;
+
+            listeningChecked = false;
+            document.getElementById('listening-user-input').value = "";
+            document.getElementById('listening-feedback-msg').innerText = "";
+
+            document.getElementById('flashcard-progress').innerText = `${flashcardIndex + 1}/${filteredDeck.length}`;
+            document.getElementById('flashcard-english').innerText = card.word;
+            document.getElementById('flashcard-revealed-english').innerText = card.word;
+            document.getElementById('flashcard-ipa').innerText = card.ipa || '';
+            document.getElementById('flashcard-thai').innerText = card.definition;
+            
+            const exContainer = document.getElementById('flashcard-example-container');
+            const exText = document.getElementById('flashcard-example');
+            if (card.example) {
+                exText.innerText = card.example;
+                exContainer.classList.remove('hidden');
+            } else {
+                exContainer.classList.add('hidden');
+            }
+
+            // Adapt Listening Mode View
+            applyListeningModeViewSettings();
+        }
+
+        function toggleListeningMode() {
+            isListeningModeActive = !isListeningModeActive;
+            const btn = document.getElementById('listening-mode-toggle');
+            const icon = document.getElementById('listening-toggle-icon');
+            const txt = document.getElementById('listening-toggle-text');
+
+            if (isListeningModeActive) {
+                btn.className = "flex items-center space-x-1 bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-2 rounded-lg text-xs font-semibold transition-all";
+                icon.innerText = "🎧";
+                txt.innerText = "เปิดโหมดฝึกฟังอยู่";
+            } else {
+                btn.className = "flex items-center space-x-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-2 rounded-lg text-xs font-semibold transition-all";
+                icon.innerText = "📝";
+                txt.innerText = "เปิดโหมดฝึกฟัง";
+            }
+
+            resetCardFlip();
+            applyListeningModeViewSettings();
+        }
+
+        function applyListeningModeViewSettings() {
+            const normalFront = document.getElementById('card-front-normal-content');
+            const listeningFront = document.getElementById('card-front-listening-content');
+            const badge = document.getElementById('card-front-badge');
+            const tip = document.getElementById('card-front-tip');
+            const cardWidget = document.getElementById('vocab-card');
+
+            if (isListeningModeActive && !listeningChecked) {
+                normalFront.classList.add('hidden');
+                listeningFront.classList.remove('hidden');
+                badge.innerText = "Listening Mode 🎧";
+                tip.innerText = "สะกดคำศัพท์ในช่องค้นหาก่อนทำการพลิกเฉลย";
+                // Disable direct flip until checked
+                cardWidget.setAttribute('onclick', '');
+                // Speak word on load
+                setTimeout(() => speakWord(null), 300);
+            } else {
+                normalFront.classList.remove('hidden');
+                listeningFront.classList.add('hidden');
+                badge.innerText = "English";
+                tip.innerText = "แตะสัมผัสตัวการ์ดเพื่อดูเฉลยคำแปล";
+                // Enable direct flip
+                cardWidget.setAttribute('onclick', 'flipCard()');
+            }
+        }
+
+        function checkListeningAnswer(event) {
+            if (event) event.stopPropagation();
+
+            const card = filteredDeck[flashcardIndex];
+            if (!card) return;
+
+            const inputField = document.getElementById('listening-user-input');
+            const feedback = document.getElementById('listening-feedback-msg');
+            const userAns = inputField.value.toLowerCase().trim();
+            
+            // Handle compound words or slash choices (e.g. "Hanging/Suspend" check if matches either)
+            const acceptableWords = card.word.toLowerCase().split('/').map(w => w.trim());
+            const isCorrect = acceptableWords.includes(userAns);
+
+            if (isCorrect) {
+                feedback.className = "text-xs font-bold text-emerald-300 min-h-[1.25rem] animate-bounce";
+                feedback.innerText = "🎉 ถูกต้อง ! พลิกการ์ดให้อัตโนมัติ";
+                listeningChecked = true;
+                
+                // Allow card to flip automatically
+                setTimeout(() => {
+                    applyListeningModeViewSettings();
+                    flipCard();
+                }, 800);
+            } else {
+                feedback.className = "text-xs font-bold text-rose-300 min-h-[1.25rem] animate-shake";
+                feedback.innerText = "❌ สะกดยังไม่ถูกต้อง ลองฟังซ้ำและพิมพ์ใหม่อีกครั้ง";
+                
+                // Shake effect animation trigger
+                inputField.classList.add('border-rose-500', 'bg-rose-900/20');
+                setTimeout(() => {
+                    inputField.classList.remove('border-rose-500', 'bg-rose-900/20');
+                }, 1000);
+            }
+        }
+
+        function flipCard() {
+            // In listening mode, block flipping unless dictation is verified
+            if (isListeningModeActive && !listeningChecked) {
+                const feedback = document.getElementById('listening-feedback-msg');
+                feedback.innerText = "⚠️ ต้องพิมพ์ตอบศัพท์ให้ถูกต้องก่อนพลิกดูความหมาย";
+                return;
+            }
+
+            const inner = document.getElementById('vocab-card-inner');
+            if (isCardFlipped) {
+                inner.classList.remove('rotate-y-180');
+            } else {
+                inner.classList.add('rotate-y-180');
+            }
+            isCardFlipped = !isCardFlipped;
+        }
+
+        function resetCardFlip() {
+            const inner = document.getElementById('vocab-card-inner');
+            inner.classList.remove('rotate-y-180');
+            isCardFlipped = false;
+        }
+
+        function nextFlashcard() {
+            if (filteredDeck.length <= 1) return;
+            flashcardIndex = (flashcardIndex + 1) % filteredDeck.length;
+            resetCardFlip();
+            setTimeout(renderActiveFlashcard, 150);
+        }
+
+        function prevFlashcard() {
+            if (filteredDeck.length <= 1) return;
+            flashcardIndex = (flashcardIndex - 1 + filteredDeck.length) % filteredDeck.length;
+            resetCardFlip();
+            setTimeout(renderActiveFlashcard, 150);
+        }
+
+        // Spaced Repetition Rating Execution
+        function gradeWordSRS(quality) {
+            const activeCard = filteredDeck[flashcardIndex];
+            if (!activeCard) return;
+
+            // Find real reference within appWords database array
+            const masterIdx = appWords.findIndex(w => w.id === activeCard.id);
+            if (masterIdx === -1) return;
+
+            const wordObj = appWords[masterIdx];
+
+            // Define custom structured intervals based on requirements:
+            // 0: Again / ทบทวนทันที (วันนี้)
+            // 1: Hard / 1 วัน
+            // 2: Good / 3 วัน
+            // 3: Easy / 7 วัน
+            // 4: Mastered / 14 วัน
+            const daysMap = [0, 1, 3, 7, 14];
+            const addedDays = daysMap[quality];
+
+            // Adjust easeFactor depending on chosen rating level
+            let easeAdjustment = 0;
+            if (quality === 0) easeAdjustment = -0.2;
+            else if (quality === 1) easeAdjustment = -0.15;
+            else if (quality === 2) easeAdjustment = 0;
+            else if (quality === 3) easeAdjustment = 0.15;
+            else if (quality === 4) easeAdjustment = 0.25;
+
+            wordObj.easeFactor = Math.max(1.3, Number((wordObj.easeFactor + easeAdjustment).toFixed(2)));
+            wordObj.reviewCount++;
+            wordObj.interval = addedDays;
+
+            // Calculate exact epoch timestamp for next study session
+            if (addedDays === 0) {
+                wordObj.nextReviewDate = 0; // Immediate review
+                wordObj.status = 'learning';
+            } else {
+                wordObj.nextReviewDate = Date.now() + (addedDays * 24 * 60 * 60 * 1000);
+                wordObj.status = (quality >= 3) ? 'mastered' : 'learning';
+            }
+
+            // Save to browser Storage
+            dailyGoals.flashcardsDone++;
+            saveToLocalStorage();
+            updateAllStats();
+
+            // Slide visually to next card
+            if (filteredDeck.length > 1) {
+                // Remove word from active filtered list if in due only mode to feel progress!
+                if (currentFlashcardFilter === 'due' && addedDays > 0) {
+                    filteredDeck.splice(flashcardIndex, 1);
+                    if (flashcardIndex >= filteredDeck.length) {
+                        flashcardIndex = 0;
+                    }
+                    resetCardFlip();
+                    if (filteredDeck.length === 0) {
+                        initFlashcards();
+                    } else {
+                        setTimeout(renderActiveFlashcard, 150);
+                    }
+                } else {
+                    nextFlashcard();
+                }
+            } else {
+                // Only 1 card was left, reset or complete
+                resetCardFlip();
+                initFlashcards();
+            }
+        }
+
+        function resetFlashcardDeck() {
+            if (confirm("คุณต้องการรีเซตสถิติเป้าหมายและรอบทบทวนสำหรับช่วงเวลานี้หรือไม่?")) {
+                flashcardIndex = 0;
+                resetCardFlip();
+                renderActiveFlashcard();
+            }
+        }
+
+
+        // Quiz Generation Logic
+        function startQuiz() {
+            const emptyState = document.getElementById('quiz-empty-state');
+            const mainPanel = document.getElementById('quiz-main-panel');
+            const resultsPanel = document.getElementById('quiz-results-panel');
+
+            resultsPanel.classList.add('hidden');
+
+            if (appWords.length < 4) {
+                emptyState.classList.remove('hidden');
+                mainPanel.classList.add('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+                mainPanel.classList.remove('hidden');
+            }
+
+            // Shuffle words to generate random test
+            const shuffledPool = [...appWords].sort(() => 0.5 - Math.random());
+            const numQuestions = Math.min(10, shuffledPool.length);
+            
+            quizQuestions = shuffledPool.slice(0, numQuestions).map(item => {
+                // Find 3 incorrect distractors
+                const distractors = appWords
+                    .filter(w => w.id !== item.id)
+                    .sort(() => 0.5 - Math.random())
+                    .slice(0, 3)
+                    .map(w => w.definition);
+
+                // Merge correct and incorrect options
+                const options = [item.definition, ...distractors].sort(() => 0.5 - Math.random());
+                return {
+                    id: item.id,
+                    word: item.word,
+                    correctDefinition: item.definition,
+                    options: options
+                };
+            });
+
+            quizCurrentIndex = 0;
+            quizScore = 0;
+            renderQuizQuestion();
+        }
+
+        function renderQuizQuestion() {
+            const q = quizQuestions[quizCurrentIndex];
+            if (!q) return;
+
+            selectedQuizOptionIdx = null;
+            document.getElementById('quiz-action-container').classList.add('hidden');
+            document.getElementById('quiz-badge').innerText = `ข้อที่ ${quizCurrentIndex + 1}/${quizQuestions.length}`;
+            
+            const progressPct = ((quizCurrentIndex) / quizQuestions.length) * 100;
+            document.getElementById('quiz-bar').style.width = `${progressPct}%`;
+
+            document.getElementById('quiz-word-display').innerText = q.word;
+
+            // Generate options HTML
+            const optContainer = document.getElementById('quiz-options-container');
+            optContainer.innerHTML = '';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full text-left bg-slate-50 hover:bg-slate-100 active:bg-slate-200 border border-slate-200 p-4 rounded-2xl font-medium transition-all text-sm sm:text-base text-slate-800 flex items-center justify-between";
+                btn.innerHTML = `
+                    <span>${opt}</span>
+                    <span class="w-6 h-6 border-2 border-slate-300 rounded-full flex items-center justify-center text-xs text-transparent">✓</span>
+                `;
+                btn.onclick = () => selectQuizOption(idx);
+                optContainer.appendChild(btn);
+            });
+        }
+
+        function selectQuizOption(optionIdx) {
+            if (selectedQuizOptionIdx !== null) return; // Prevent double submission
+            selectedQuizOptionIdx = optionIdx;
+
+            const q = quizQuestions[quizCurrentIndex];
+            const buttons = document.getElementById('quiz-options-container').children;
+            const correctText = q.correctDefinition;
+            const selectedText = q.options[optionIdx];
+            
+            const isCorrect = selectedText === correctText;
+            if (isCorrect) quizScore++;
+
+            // Highlight choice feedback
+            q.options.forEach((opt, idx) => {
+                const btn = buttons[idx];
+                const circle = btn.querySelector('span:last-child');
+                
+                if (opt === correctText) {
+                    btn.className = "w-full text-left bg-emerald-50 border-2 border-emerald-500 p-4 rounded-2xl font-semibold transition-all text-sm sm:text-base text-emerald-900 flex items-center justify-between";
+                    circle.className = "w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center text-xs font-bold";
+                    circle.innerText = "✓";
+                } else if (idx === optionIdx) {
+                    btn.className = "w-full text-left bg-rose-50 border-2 border-rose-500 p-4 rounded-2xl font-semibold transition-all text-sm sm:text-base text-rose-900 flex items-center justify-between";
+                    circle.className = "w-6 h-6 bg-rose-500 text-white rounded-full flex items-center justify-center text-xs font-bold";
+                    circle.innerText = "✗";
+                } else {
+                    btn.className = "w-full text-left bg-slate-50 border border-slate-200/50 p-4 rounded-2xl font-medium transition-all text-sm sm:text-base text-slate-400 flex items-center justify-between cursor-not-allowed";
+                }
+            });
+
+            // Action section reveal
+            const actionContainer = document.getElementById('quiz-action-container');
+            const feedbackText = document.getElementById('quiz-feedback-text');
+            actionContainer.classList.remove('hidden');
+
+            if (isCorrect) {
+                feedbackText.className = "font-bold text-sm text-emerald-600";
+                feedbackText.innerHTML = "🎉 ตอบถูกต้อง !";
+                
+                // Track daily target goals
+                dailyGoals.quizzesPassed++;
+                saveToLocalStorage();
+                updateAllStats();
+            } else {
+                feedbackText.className = "font-bold text-sm text-rose-600";
+                feedbackText.innerHTML = "💡 คำแปลที่ถูกต้อง : " + correctText;
+            }
+        }
+
+        function nextQuizQuestion() {
+            quizCurrentIndex++;
+            if (quizCurrentIndex < quizQuestions.length) {
+                renderQuizQuestion();
+            } else {
+                showQuizResults();
+            }
+        }
+
+        function showQuizResults() {
+            document.getElementById('quiz-main-panel').classList.add('hidden');
+            const resPanel = document.getElementById('quiz-results-panel');
+            resPanel.classList.remove('hidden');
+
+            document.getElementById('quiz-score-display').innerText = `${quizScore}/${quizQuestions.length}`;
+            
+            const emojiEl = document.getElementById('quiz-score-emoji');
+            const ratio = quizScore / quizQuestions.length;
+            if (ratio === 1) {
+                emojiEl.innerText = "🏆";
+            } else if (ratio >= 0.7) {
+                emojiEl.innerText = "⭐";
+            } else {
+                emojiEl.innerText = "💪";
+            }
+        }
+
+
+        // Matching Game logic
+        function initMatchGame() {
+            const emptyState = document.getElementById('match-empty-state');
+            const board = document.getElementById('match-game-board');
+            const overlay = document.getElementById('match-success-overlay');
+            
+            overlay.classList.add('hidden');
+            board.classList.remove('hidden');
+            
+            clearInterval(matchTimerInterval);
+            matchTimerInterval = null;
+            document.getElementById('match-timer').innerText = "เวลา : 0.0s";
+
+            if (appWords.length < 4) {
+                emptyState.classList.remove('hidden');
+                board.classList.add('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+                board.classList.remove('hidden');
+            }
+
+            // Select 4 random words for 8 matching card items
+            const gameSize = Math.min(4, appWords.length);
+            const pool = [...appWords].sort(() => 0.5 - Math.random()).slice(0, gameSize);
+            
+            // Build card decks
+            matchCards = [];
+            pool.forEach(item => {
+                matchCards.push({
+                    id: `word-${item.id}`,
+                    matchId: item.id,
+                    type: 'english',
+                    text: item.word,
+                    isMatched: false
+                });
+                matchCards.push({
+                    id: `def-${item.id}`,
+                    matchId: item.id,
+                    type: 'thai',
+                    text: item.definition,
+                    isMatched: false
+                });
+            });
+
+            // Shuffle matching deck
+            matchCards.sort(() => 0.5 - Math.random());
+
+            // Reset matching variables
+            firstSelectedCard = null;
+            secondSelectedCard = null;
+            matchMatchesFound = 0;
+            isBoardLocked = false;
+
+            renderMatchGameBoard();
+        }
+
+        function renderMatchGameBoard() {
+            const board = document.getElementById('match-game-board');
+            board.innerHTML = '';
+
+            matchCards.forEach(card => {
+                const button = document.createElement('button');
+                button.id = card.id;
+                
+                let themeClasses = "bg-white border-slate-200 text-slate-800 hover:border-indigo-400";
+                if (card.type === 'english') {
+                    themeClasses = "bg-white border-slate-200 text-slate-900 hover:border-indigo-500 font-bold";
+                }
+
+                button.className = `${themeClasses} border-2 p-4 h-24 rounded-2xl flex items-center justify-center text-center text-sm transition-all shadow-sm break-words focus:outline-none`;
+                button.innerText = card.text;
+                button.onclick = () => handleMatchCardSelect(card);
+                board.appendChild(button);
+            });
+        }
+
+        function handleMatchCardSelect(card) {
+            if (isBoardLocked || card.isMatched) return;
+
+            // Start clock timer on first interaction
+            if (!matchTimerInterval) {
+                matchStartTime = Date.now();
+                matchTimerInterval = setInterval(() => {
+                    const elapsed = ((Date.now() - matchStartTime) / 1000).toFixed(1);
+                    document.getElementById('match-timer').innerText = `เวลา : ${elapsed}s`;
+                }, 100);
+            }
+
+            const button = document.getElementById(card.id);
+
+            // Cancel select if clicking same active card
+            if (firstSelectedCard && firstSelectedCard.id === card.id) {
+                button.className = button.className.replace('border-indigo-600 bg-indigo-50', 'border-slate-200 bg-white');
+                firstSelectedCard = null;
+                return;
+            }
+
+            // Highlight selected card
+            button.classList.add('border-indigo-600', 'bg-indigo-50/70', 'ring-2', 'ring-indigo-200');
+
+            if (!firstSelectedCard) {
+                firstSelectedCard = card;
+            } else {
+                secondSelectedCard = card;
+                checkMatchSelection();
+            }
+        }
+
+        function checkMatchSelection() {
+            isBoardLocked = true;
+            const card1 = firstSelectedCard;
+            const card2 = secondSelectedCard;
+            
+            const btn1 = document.getElementById(card1.id);
+            const btn2 = document.getElementById(card2.id);
+
+            // Success Matching Case
+            if (card1.matchId === card2.matchId && card1.type !== card2.type) {
+                setTimeout(() => {
+                    btn1.className = "bg-emerald-50 border-emerald-500 border-2 text-emerald-800 rounded-2xl p-4 h-24 flex items-center justify-center text-center text-sm shadow-inner opacity-60 cursor-not-allowed";
+                    btn2.className = "bg-emerald-50 border-emerald-500 border-2 text-emerald-800 rounded-2xl p-4 h-24 flex items-center justify-center text-center text-sm shadow-inner opacity-60 cursor-not-allowed";
+                    
+                    card1.isMatched = true;
+                    card2.isMatched = true;
+
+                    matchMatchesFound++;
+                    
+                    if (matchMatchesFound === matchCards.length / 2) {
+                        endMatchGame();
+                    }
+
+                    firstSelectedCard = null;
+                    secondSelectedCard = null;
+                    isBoardLocked = false;
+                }, 400);
+            } else {
+                // Fail matching case
+                setTimeout(() => {
+                    btn1.className = btn1.className.replace('border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-200', 'border-slate-200 bg-white');
+                    btn2.className = btn2.className.replace('border-indigo-600 bg-indigo-50/70 ring-2 ring-indigo-200', 'border-slate-200 bg-white');
+                    
+                    btn1.classList.remove('ring-2', 'ring-indigo-200', 'bg-indigo-50/70', 'border-indigo-600');
+                    btn2.classList.remove('ring-2', 'ring-indigo-200', 'bg-indigo-50/70', 'border-indigo-600');
+
+                    firstSelectedCard = null;
+                    secondSelectedCard = null;
+                    isBoardLocked = false;
+                }, 700);
+            }
+        }
+
+        function endMatchGame() {
+            clearInterval(matchTimerInterval);
+            const elapsed = ((Date.now() - matchStartTime) / 1000).toFixed(1);
+            
+            document.getElementById('match-game-board').classList.add('hidden');
+            
+            const overlay = document.getElementById('match-success-overlay');
+            document.getElementById('match-final-time').innerText = `${elapsed} วินาที`;
+            overlay.classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
