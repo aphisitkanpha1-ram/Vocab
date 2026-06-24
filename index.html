@@ -42,7 +42,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased">
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col antialiased font-semibold">
 
     <!-- Navigation Header -->
     <header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-slate-200">
@@ -55,7 +55,7 @@
                 </div>
                 <div>
                     <span class="text-xl font-bold bg-gradient-to-r from-indigo-600 to-violet-600 bg-clip-text text-transparent">Vocab Booster</span>
-                    <span class="text-xs block text-slate-500 font-medium font-semibold">เพื่อนแท้ฝึกคำศัพท์ภาษาอังกฤษ</span>
+                    <span class="text-xs block text-slate-500 font-semibold">เพื่อนแท้ฝึกคำศัพท์ภาษาอังกฤษ</span>
                 </div>
             </div>
 
@@ -86,31 +86,31 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2H6a2 2 0 01-2-2v-4zM14 16a2 2 0 012-2h2a2 2 0 012 2v4a2 2 0 01-2 2h-2a2 2 0 01-2-2v-4z" />
             </svg>
-            <span class="text-[10px] mt-1 font-medium">แดชบอร์ด</span>
+            <span class="text-[10px] mt-1 font-semibold">แดชบอร์ด</span>
         </button>
         <button onclick="switchView('flashcards')" id="mobile-nav-flashcards" class="flex flex-col items-center py-1 px-3 text-slate-500">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
             </svg>
-            <span class="text-[10px] mt-1 font-medium">แฟลชการ์ด</span>
+            <span class="text-[10px] mt-1 font-semibold">แฟลชการ์ด</span>
         </button>
         <button onclick="switchView('quiz')" id="mobile-nav-quiz" class="flex flex-col items-center py-1 px-3 text-slate-500">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span class="text-[10px] mt-1 font-medium">ทดสอบ</span>
+            <span class="text-[10px] mt-1 font-semibold">ทดสอบ</span>
         </button>
         <button onclick="switchView('match')" id="mobile-nav-match" class="flex flex-col items-center py-1 px-3 text-slate-500">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
             </svg>
-            <span class="text-[10px] mt-1 font-medium">จับคู่</span>
+            <span class="text-[10px] mt-1 font-semibold">จับคู่</span>
         </button>
         <button onclick="switchView('wordlist')" id="mobile-nav-wordlist" class="flex flex-col items-center py-1 px-3 text-slate-500">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
             </svg>
-            <span class="text-[10px] mt-1 font-medium">คลังศัพท์</span>
+            <span class="text-[10px] mt-1 font-semibold">คลังศัพท์</span>
         </button>
     </div>
 
@@ -125,15 +125,15 @@
                 <div class="absolute -left-16 -bottom-16 w-64 h-64 bg-violet-500/20 rounded-full blur-3xl"></div>
                 
                 <div class="relative z-10 max-w-2xl">
-                    <span class="bg-indigo-500/30 text-indigo-300 text-xs px-3 py-1 rounded-full font-semibold uppercase tracking-wider">Dashboard Overview</span>
+                    <span class="bg-indigo-500/30 text-indigo-300 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">Dashboard Overview</span>
                     <h1 class="text-3xl sm:text-4xl font-bold mt-3 mb-2 tracking-tight">ยินดีต้อนรับสู่ คลังการเรียนรู้ส่วนตัว</h1>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    <p class="text-slate-300 text-sm sm:text-base font-normal leading-relaxed">
                         พัฒนาคลังศัพท์ในทุกวันระบบช่วยให้เรียนรู้และจดจำมีประสิทธิภาพสูงตามหลักการ Spaced Repetition และโหมดเขียนตามคำบอก
                     </p>
                     
                     <div class="mt-6 flex flex-wrap gap-3">
-                        <button onclick="switchView('flashcards')" class="bg-white hover:bg-slate-100 text-slate-900 px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md">เริ่มฝึกด้วยแฟลชการ์ด</button>
-                        <button onclick="switchView('quiz')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all shadow-md border border-indigo-500/30">ทดสอบความพร้อม</button>
+                        <button onclick="switchView('flashcards')" class="bg-white hover:bg-slate-100 text-slate-900 px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-md">เริ่มทบทวนแฟลชการ์ด</button>
+                        <button onclick="switchView('quiz')" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl font-bold text-sm transition-all shadow-md border border-indigo-500/30">ทดสอบความพร้อม</button>
                     </div>
                 </div>
             </div>
@@ -147,7 +147,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-500 block font-medium">คำศัพท์ทั้งหมด</span>
+                        <span class="text-xs text-slate-500 block font-semibold">คำศัพท์ทั้งหมดในคลัง</span>
                         <span id="stat-total-words" class="text-2xl font-bold text-slate-900">0</span>
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-500 block font-medium">ต้องทบทวนวันนี้ (SRS Due)</span>
+                        <span class="text-xs text-slate-500 block font-semibold">ต้องทบทวนวันนี้ (SRS Due)</span>
                         <span id="stat-due-words" class="text-2xl font-bold text-indigo-600">0</span>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-500 block font-medium">จำได้ขึ้นใจ</span>
+                        <span class="text-xs text-slate-500 block font-semibold">จำได้ขึ้นใจ</span>
                         <span id="stat-mastered-words" class="text-2xl font-bold text-slate-900">0</span>
                     </div>
                 </div>
@@ -183,119 +183,92 @@
                         </svg>
                     </div>
                     <div>
-                        <span class="text-xs text-slate-500 block font-medium">อัตราการจดจำ</span>
+                        <span class="text-xs text-slate-500 block font-semibold">อัตราการจดจำ</span>
                         <span id="stat-mastery-rate" class="text-2xl font-bold text-slate-900">0%</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Main Layout Grid (Dual Column) -->
+            <!-- Main Layout Grid (Dual Column Dashboard) -->
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Left: Quick Action Decks -->
+                <!-- Left Column : Session Tracker and Quick Study Info -->
                 <div class="lg:col-span-2 space-y-6">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-xl font-bold text-slate-900">หมวดหมู่คำศัพท์แนะนำ</h2>
-                        <span class="text-xs text-indigo-600 font-semibold cursor-pointer hover:underline" onclick="switchView('wordlist')">ดูทั้งหมด</span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <!-- Card: Custom Initial Deck -->
-                        <div class="bg-indigo-50/50 p-5 rounded-2xl border-2 border-indigo-200 hover:shadow-md transition-all group flex flex-col justify-between">
+                    <!-- Daily Study Schedule Checklist -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between border-b border-slate-100 pb-3">
                             <div>
-                                <div class="w-10 h-10 bg-indigo-100 text-indigo-600 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                                    ⭐
-                                </div>
-                                <h3 class="font-bold text-slate-950 text-base">ศัพท์ชุดแรกของฉัน</h3>
-                                <p class="text-slate-500 text-xs mt-1">คลังคำศัพท์เริ่มต้นจำนวน 42 คำเพื่อปูพื้นฐานการทบทวน</p>
+                                <h3 class="font-bold text-slate-900 text-lg">ตารางเวลาฝึกฝนประจำวัน</h3>
+                                <p class="text-xs text-slate-500 font-normal">เป้าหมายฝึกวันละ 3 รอบเพื่อการจำที่มีประสิทธิภาพสูงสุด</p>
                             </div>
-                            <div class="mt-4 flex items-center justify-between border-t border-slate-200/60 pt-3">
-                                <span class="text-[11px] text-slate-400 font-medium">42 คำศัพท์ชุดหลัก</span>
-                                <button onclick="loadPresetDeck('firstSet')" class="text-indigo-600 hover:text-indigo-700 text-xs font-semibold flex items-center gap-1 group">
-                                    โหลดชุดนี้
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            </div>
+                            <span class="text-xs bg-indigo-50 text-indigo-700 px-2.5 py-1 rounded-full font-bold">เช็คลิสต์ประจำวัน</span>
                         </div>
 
-                        <!-- Card: General Vocabulary -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 hover:shadow-md transition-all group flex flex-col justify-between">
-                            <div>
-                                <div class="w-10 h-10 bg-slate-50 text-slate-600 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                                    🗣️
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                            <!-- Morning Session -->
+                            <label class="relative flex items-center p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all">
+                                <input type="checkbox" id="session-morning" onchange="toggleSession('morning')" class="w-5 h-5 rounded-md text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                                <div class="ml-3">
+                                    <span class="block text-sm font-bold text-slate-800">ช่วงเช้า (10 นาที)</span>
+                                    <span class="text-[10px] text-slate-400 font-normal">ทบทวนศัพท์ที่ถึงกำหนด</span>
                                 </div>
-                                <h3 class="font-bold text-slate-950 text-base">General Vocabulary</h3>
-                                <p class="text-slate-500 text-xs mt-1">รวบรวมคำศัพท์พื้นฐานทั่วไปที่ใช้บ่อยในชีวิตประจำวัน</p>
-                            </div>
-                            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
-                                <span class="text-[11px] text-slate-400 font-medium">30 คำศัพท์ตัวอย่าง</span>
-                                <button onclick="loadPresetDeck('general')" class="text-indigo-600 hover:text-indigo-700 text-xs font-semibold flex items-center gap-1 group">
-                                    โหลดชุดนี้
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
+                            </label>
 
-                        <!-- Card: TOEIC/Business Vocabulary -->
-                        <div class="bg-white p-5 rounded-2xl border border-slate-200 hover:shadow-md transition-all group flex flex-col justify-between">
-                            <div>
-                                <div class="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-                                    💼
+                            <!-- Noon Session -->
+                            <label class="relative flex items-center p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all">
+                                <input type="checkbox" id="session-noon" onchange="toggleSession('noon')" class="w-5 h-5 rounded-md text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                                <div class="ml-3">
+                                    <span class="block text-sm font-bold text-slate-800">กลางวัน (10 นาที)</span>
+                                    <span class="text-[10px] text-slate-400 font-normal">เพิ่ม/เรียนรู้คำศัพท์ใหม่</span>
                                 </div>
-                                <h3 class="font-bold text-slate-950 text-base">TOEIC & Business</h3>
-                                <p class="text-slate-500 text-xs mt-1">คัดเน้นศัพท์พบบ่อยในข้อสอบ TOEIC และแวดวงธุรกิจการทำงาน</p>
-                            </div>
-                            <div class="mt-4 flex items-center justify-between border-t border-slate-100 pt-3">
-                                <span class="text-[11px] text-slate-400 font-medium">30 คำศัพท์ตัวอย่าง</span>
-                                <button onclick="loadPresetDeck('toeic')" class="text-emerald-600 hover:text-emerald-700 text-xs font-semibold flex items-center gap-1 group">
-                                    โหลดชุดนี้
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-                                    </svg>
-                                </button>
-                            </div>
+                            </label>
+
+                            <!-- Night Session -->
+                            <label class="relative flex items-center p-3 rounded-xl border border-slate-100 hover:bg-slate-50 cursor-pointer transition-all">
+                                <input type="checkbox" id="session-night" onchange="toggleSession('night')" class="w-5 h-5 rounded-md text-indigo-600 border-slate-300 focus:ring-indigo-500">
+                                <div class="ml-3">
+                                    <span class="block text-sm font-bold text-slate-800">ก่อนนอน (10 นาที)</span>
+                                    <span class="text-[10px] text-slate-400 font-normal">โหมดฝึกฟังและการเขียน</span>
+                                </div>
+                            </label>
                         </div>
                     </div>
 
-                    <!-- App Features Explain Section -->
+                    <!-- Personalized study summary -->
                     <div class="bg-indigo-50 rounded-2xl p-6 border border-indigo-100/50 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div class="flex items-center space-x-4">
-                            <span class="text-3xl">💡</span>
+                            <span class="text-3xl">📝</span>
                             <div>
-                                <h4 class="font-bold text-slate-900">เพิ่มคำศัพท์ในแบบของตัวคุณเอง !</h4>
-                                <p class="text-slate-600 text-sm">บันทึกคำศัพท์ที่พบนอกตำราเรียน เข้ามาเรียนรู้และทบทวนในระบบได้ทันที</p>
+                                <h4 class="font-bold text-slate-900">เพิ่มคำศัพท์ในแบบของตัวเอง</h4>
+                                <p class="text-slate-600 text-sm font-normal">บันทึกคำศัพท์ที่พบนอกตำราเรียน เข้ามาทบทวนในระบบได้ทันที</p>
                             </div>
                         </div>
-                        <button onclick="openAddWordModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm px-4 py-2.5 rounded-xl whitespace-nowrap shadow-sm shadow-indigo-100">เพิ่มคำศัพท์ใหม่</button>
+                        <button onclick="openAddWordModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm px-4 py-2.5 rounded-xl whitespace-nowrap shadow-sm shadow-indigo-100">เพิ่มคำศัพท์ใหม่</button>
+                    </div>
+
+                    <!-- Current Deck Overview Card -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-bold text-slate-900 text-lg">คลังคำศัพท์เตรียมสอบสะสม</h3>
+                            <button onclick="switchView('wordlist')" class="text-xs text-indigo-600 hover:underline">ดูรายการศัพท์ทั้งหมด</button>
+                        </div>
+                        <div class="p-4 bg-slate-50 border border-slate-100 rounded-xl flex items-center justify-between">
+                            <div>
+                                <span class="text-slate-400 text-[10px] block font-bold uppercase tracking-wider">Active Studying Deck</span>
+                                <span class="text-base font-bold text-slate-800">⭐ ศัพท์ชุดแรกของฉัน (รวมคำใหม่)</span>
+                            </div>
+                            <span class="text-xs bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-xl font-bold" id="dashboard-deck-count">0 คำศัพท์</span>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Right: Daily Challenges / Fast facts -->
+                <!-- Right Column : Daily Goals and Tips -->
                 <div class="space-y-6">
-                    <div class="bg-white p-6 rounded-2xl border border-slate-200">
-                        <h3 class="font-bold text-slate-900 text-lg mb-4 flex items-center gap-2">
-                            <span>🎯</span> เกร็ดความรู้ประจำวัน
-                        </h3>
-                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
-                            <span class="text-indigo-600 text-xs font-bold uppercase tracking-wider block mb-1">Active Recall Tip</span>
-                            <p class="text-slate-700 text-sm leading-relaxed">
-                                การพยายามนึกคำศัพท์ด้วยตัวเองผ่าน **แฟลชการ์ด** มีประสิทธิภาพมากกว่าการนั่งอ่านทวนไปเรื่อย ๆ หลายเท่านัก !
-                            </p>
-                        </div>
-                        <div class="mt-4 border-t border-slate-100 pt-4 text-center">
-                            <p class="text-xs text-slate-400">พัฒนาโดยผู้ช่วยจัดการโปรเจกต์ของคุณ</p>
-                        </div>
-                    </div>
-
                     <!-- Daily Goal Tracker -->
                     <div class="bg-white p-6 rounded-2xl border border-slate-200">
-                        <h3 class="font-bold text-slate-900 text-lg mb-4">เป้าหมายประจำวัน</h3>
+                        <h3 class="font-bold text-slate-900 text-lg mb-4">เป้าหมายประจำวัน : </h3>
                         <div class="space-y-4">
                             <div>
-                                <div class="flex justify-between text-xs font-medium mb-1">
+                                <div class="flex justify-between text-xs font-semibold mb-1">
                                     <span class="text-slate-600">ทบทวนแฟลชการ์ด</span>
                                     <span class="text-indigo-600" id="goal-flashcard-text">0/10 ใบ</span>
                                 </div>
@@ -304,7 +277,7 @@
                                 </div>
                             </div>
                             <div>
-                                <div class="flex justify-between text-xs font-medium mb-1">
+                                <div class="flex justify-between text-xs font-semibold mb-1">
                                     <span class="text-slate-600">ทำแบบทดสอบให้ถูกต้อง</span>
                                     <span class="text-emerald-600" id="goal-quiz-text">0/5 ข้อ</span>
                                 </div>
@@ -312,6 +285,21 @@
                                     <div class="bg-emerald-500 h-1.5 rounded-full" id="goal-quiz-bar" style="width: 0%"></div>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200">
+                        <h3 class="font-bold text-slate-900 text-lg mb-4 flex items-center gap-2">
+                            <span>🎯</span> เกร็ดความรู้ประจำวัน
+                        </h3>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="text-indigo-600 text-xs font-bold uppercase tracking-wider block mb-1">Active Recall Tip</span>
+                            <p class="text-slate-700 text-sm font-normal leading-relaxed">
+                                การพยายามนึกคำศัพท์ด้วยตัวเองผ่าน **แฟลชการ์ด** มีประสิทธิภาพมากกว่าการนั่งอ่านทวนไปเรื่อย ๆ หลายเท่านัก !
+                            </p>
+                        </div>
+                        <div class="mt-4 border-t border-slate-100 pt-4 text-center">
+                            <p class="text-xs text-slate-400 font-normal">พัฒนาโดยผู้ช่วยจัดการโปรเจกต์ของคุณ</p>
                         </div>
                     </div>
                 </div>
@@ -323,22 +311,24 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-900 font-semibold">ทบทวนศัพท์ : แฟลชการ์ด (SRS)</h2>
-                    <p class="text-slate-500 text-sm">ทบทวนตามหลัก Forgetting Curve และฝึกความจำตามระยะเวลา</p>
+                    <p class="text-slate-500 text-sm font-normal">ทบทวนตามหลัก Forgetting Curve และฝึกความจำตามระยะเวลา</p>
                 </div>
-                <!-- Filters & Listening Mode Toggle -->
+                <!-- Listening Mode Toggle -->
                 <div class="flex flex-wrap items-center gap-2">
-                    <!-- Toggle Due Only -->
-                    <select id="flashcard-filter" onchange="filterFlashcardDeck()" class="text-xs bg-white border border-slate-200 rounded-lg px-3 py-2 font-medium text-slate-700 focus:outline-none">
-                        <option value="due">เฉพาะที่ต้องทบทวนวันนี้</option>
-                        <option value="all">คำศัพท์ทั้งหมด</option>
-                    </select>
-
-                    <!-- Listening Mode Toggle Button -->
                     <button id="listening-mode-toggle" onclick="toggleListeningMode()" class="flex items-center space-x-1 bg-slate-200 hover:bg-slate-300 text-slate-700 px-3 py-2 rounded-lg text-xs font-semibold transition-all">
                         <span id="listening-toggle-icon">🎧</span>
                         <span id="listening-toggle-text">เปิดโหมดฝึกฟัง</span>
                     </button>
                 </div>
+            </div>
+
+            <!-- Time Filter -->
+            <div class="bg-white p-4 rounded-2xl border border-slate-200">
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">เป้าหมายช่วงเวลา : </label>
+                <select id="flashcard-filter" onchange="filterFlashcardDeck()" class="w-full bg-white border border-slate-200 px-3 py-2 rounded-xl text-xs font-semibold text-slate-700 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="due">⏰ เฉพาะที่ต้องทบทวนวันนี้ (SRS Due)</option>
+                    <option value="all">📚 คำศัพท์ทั้งหมดในคลังระบบ</option>
+                </select>
             </div>
 
             <!-- Progress status info -->
@@ -351,8 +341,8 @@
             <div id="flashcard-empty-state" class="hidden bg-white border border-slate-200 rounded-3xl p-12 text-center space-y-4">
                 <div class="text-5xl">🎉</div>
                 <h3 class="text-xl font-bold text-slate-900">ไม่มีคำศัพท์ที่ถึงกำหนดทบทวนในขณะนี้</h3>
-                <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed">
-                    เก่งมาก ! คุณทำการทบทวนคำศัพท์ที่ควรทบทวนของวันนี้ครบเรียบร้อยแล้ว ลองสลับตัวกรองเป็น **"คำศัพท์ทั้งหมด"** หรือเปลี่ยนไปฝึกฝนด้วยเกมอื่น ๆ ได้ทันที
+                <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed font-normal">
+                    เก่งมาก ! คุณทำการทบทวนคำศัพท์ที่ควรทบทวนของวันนี้ครบเรียบร้อยแล้ว ลองสลับตัวกรองเป็น **"คำศัพท์ทั้งหมดในคลังระบบ"** เพื่อทบทวนล่วงหน้า หรือเปลี่ยนไปฝึกฝนด้วยเกมอื่น ๆ ได้ทันที
                 </p>
                 <div class="flex justify-center gap-3">
                     <button onclick="setFlashcardFilterToAll()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">เรียนรู้คำศัพท์ทั้งหมด</button>
@@ -367,7 +357,7 @@
                     <div id="vocab-card-inner" class="preserve-3d relative w-full h-full transition-transform duration-500 ease-out transform">
                         
                         <!-- Front of Card (English Word or Listening Mode Input) -->
-                        <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 rounded-3xl p-8 flex flex-col justify-between text-white shadow-xl shadow-indigo-100 backface-hidden">
+                        <div class="absolute inset-0 w-full h-full bg-gradient-to-br from-indigo-600 via-indigo-700 to-indigo-800 rounded-3xl p-8 flex flex-col justify-between text-white shadow-xl shadow-indigo-100 backface-hidden">
                             <div class="flex justify-between items-center">
                                 <div class="flex items-center space-x-2">
                                     <span class="bg-indigo-500/30 text-indigo-100 text-xs px-3 py-1.5 rounded-full font-semibold uppercase tracking-wider" id="card-front-badge">English</span>
@@ -396,7 +386,7 @@
                                             🔊
                                         </button>
                                         <span class="text-sm font-bold text-indigo-200">What did you hear?</span>
-                                        <p class="text-xs text-indigo-300">กรุณาฟังเสียง แล้วสะกดคำศัพท์นี้ให้ถูกต้อง</p>
+                                        <p class="text-xs text-indigo-300 font-normal">กรุณาฟังเสียง แล้วสะกดคำศัพท์นี้ให้ถูกต้อง</p>
                                     </div>
                                     <div class="space-y-2">
                                         <input type="text" id="listening-user-input" placeholder="พิมพ์คำศัพท์ภาษาอังกฤษที่ได้ยิน..." class="w-full bg-white/10 border border-white/20 rounded-xl px-4 py-2.5 text-center text-sm font-bold text-white focus:outline-none focus:ring-2 focus:ring-white placeholder-indigo-200">
@@ -414,7 +404,7 @@
                         </div>
 
                         <!-- Back of Card (Thai translation & SRS Rating controls) -->
-                        <div class="absolute inset-0 bg-white border-2 border-indigo-600 rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-slate-800 shadow-xl backface-hidden rotate-y-180">
+                        <div class="absolute inset-0 w-full h-full bg-white border-2 border-indigo-600 rounded-3xl p-6 sm:p-8 flex flex-col justify-between text-slate-800 shadow-xl backface-hidden rotate-y-180">
                             <div class="flex justify-between items-center">
                                 <span class="bg-indigo-50 text-indigo-600 text-xs px-3 py-1.5 rounded-full font-semibold uppercase tracking-wider">คำแปลภาษาไทย</span>
                                 <button onclick="speakWord(event)" class="w-10 h-10 bg-slate-100 hover:bg-slate-200 rounded-full flex items-center justify-center transition-all text-slate-600">
@@ -430,7 +420,7 @@
                                     คำศัพท์ : <span id="flashcard-revealed-english" class="text-slate-700 font-mono text-sm">Word</span>
                                 </div>
                                 <h3 id="flashcard-thai" class="text-2xl sm:text-3xl font-bold text-slate-900 leading-tight">ความหมาย</h3>
-                                <div id="flashcard-example-container" class="max-w-md mx-auto text-slate-500 text-xs sm:text-sm italic border-t border-slate-100 pt-3 hidden">
+                                <div id="flashcard-example-container" class="max-w-md mx-auto text-slate-500 text-xs sm:text-sm italic border-t border-slate-100 pt-3 hidden font-normal">
                                     “<span id="flashcard-example">Example sentence.</span>”
                                 </div>
                             </div>
@@ -442,7 +432,7 @@
                     </div>
                 </div>
 
-                <!-- Spaced Repetition SRS Actions (Always visible to let users grade themselves) -->
+                <!-- Spaced Repetition SRS Actions -->
                 <div class="bg-white p-4 rounded-2xl border border-slate-200 space-y-3">
                     <span class="block text-center text-xs font-bold text-slate-500 uppercase tracking-wider">ประเมินผลการเรียนรู้ของคำนี้ (SRS) : </span>
                     <div class="grid grid-cols-5 gap-1.5 sm:gap-2">
@@ -505,7 +495,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-900 font-semibold">ทดสอบ : แบบฝึกความหมาย</h2>
-                    <p class="text-slate-500 text-sm">สะสมคะแนนเพิ่มพูนอัตราการจำได้แม่นยำ</p>
+                    <p class="text-slate-500 text-sm font-normal">สะสมคะแนนเพิ่มพูนอัตราการจำได้แม่นยำ</p>
                 </div>
                 <div id="quiz-badge" class="bg-indigo-50 text-indigo-700 font-bold text-sm px-3.5 py-1.5 rounded-full border border-indigo-100">
                     ข้อที่ 0/0
@@ -516,11 +506,11 @@
             <div id="quiz-empty-state" class="hidden bg-white border border-slate-200 rounded-3xl p-12 text-center space-y-4">
                 <div class="text-5xl">📝</div>
                 <h3 class="text-xl font-bold text-slate-900">จำนวนคำศัพท์ไม่เพียงพอ</h3>
-                <p class="text-slate-500 text-sm max-w-md mx-auto">
-                    ต้องมีคำศัพท์อย่างน้อย 4 คำขึ้นพื่อสุ่มจัดสร้างชุดแบบทดสอบปรนัยได้ถูกต้อง
+                <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed font-normal">
+                    ต้องมีคำศัพท์อย่างน้อย 4 คำขึ้นไปในคลังเพื่อสุ่มจัดสร้างชุดแบบทดสอบปรนัยได้ถูกต้อง
                 </p>
                 <div class="flex justify-center gap-3">
-                    <button onclick="loadPresetDeck('firstSet')" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">โหลดศัพท์ชุดแรก (42 ศัพท์)</button>
+                    <button onclick="resetToInitialFirstSet()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">โหลดศัพท์เริ่มต้นใหม่</button>
                 </div>
             </div>
 
@@ -565,13 +555,13 @@
             <div id="quiz-results-panel" class="hidden bg-white border border-slate-200 rounded-3xl p-8 shadow-md text-center space-y-6">
                 <div class="text-6xl" id="quiz-score-emoji">🏆</div>
                 <div>
-                    <h3 class="text-2xl font-extrabold text-slate-900">สรุปคะแนนของคุณ</h3>
-                    <p class="text-slate-500 text-sm mt-1">เก่งมาก ! พัฒนาความจำคำศัพท์อย่างต่อเนื่อง</p>
+                    <h3 class="text-2xl font-extrabold text-slate-900 font-bold">สรุปคะแนนของคุณ</h3>
+                    <p class="text-slate-500 text-sm mt-1 font-normal">เก่งมาก ! พัฒนาความจำคำศัพท์อย่างต่อเนื่อง</p>
                 </div>
                 
                 <div class="bg-indigo-50 rounded-2xl p-6 border border-indigo-100 max-w-xs mx-auto">
                     <span class="text-indigo-700 text-3xl font-extrabold" id="quiz-score-display">0/0</span>
-                    <span class="block text-xs font-medium text-indigo-500/80 mt-1">ตอบถูกต้องทั้งหมด</span>
+                    <span class="block text-xs font-semibold text-indigo-500/80 mt-1">ตอบถูกต้องทั้งหมด</span>
                 </div>
 
                 <div class="flex flex-col sm:flex-row justify-center gap-3">
@@ -586,7 +576,7 @@
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-900 font-semibold">เกมจับคู่การ์ดคำศัพท์ (Matching)</h2>
-                    <p class="text-slate-500 text-sm">คลิกเลือกการ์ดคำศัพท์ภาษาอังกฤษและคำแปลภาษาไทยที่สอดคล้องกันให้ครบถ้วนเพื่อทำลายการ์ด</p>
+                    <p class="text-slate-500 text-sm font-normal">คลิกเลือกการ์ดคำศัพท์ภาษาอังกฤษและคำแปลภาษาไทยที่สอดคล้องกันให้ครบถ้วนเพื่อทำลายการ์ด</p>
                 </div>
                 <div class="flex items-center space-x-3">
                     <span id="match-timer" class="bg-slate-900 text-white font-bold text-sm px-4 py-2 rounded-xl shadow-md min-w-[100px] text-center">เวลา : 0.0s</span>
@@ -598,10 +588,10 @@
             <div id="match-empty-state" class="hidden bg-white border border-slate-200 rounded-3xl p-12 text-center space-y-4">
                 <div class="text-5xl">🃏</div>
                 <h3 class="text-xl font-bold text-slate-900">จำนวนคำศัพท์ไม่เพียงพอ</h3>
-                <p class="text-slate-500 text-sm max-w-md mx-auto">
-                    กรุณาโหลดคลังคำศัพท์ตัวอย่าง หรือเพิ่มคำศัพท์อย่างน้อย 6 คำขึ้นเพื่อเริ่มเล่นเกมจับคู่
+                <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed font-normal">
+                    กรุณาเพิ่มคำศัพท์อย่างน้อย 4 คำขึ้นไปเพื่อเริ่มเล่นเกมจับคู่การ์ดศัพท์ในระบบ
                 </p>
-                <button onclick="loadPresetDeck('firstSet')" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">โหลดชุดศัพท์แรก (42 ศัพท์)</button>
+                <button onclick="resetToInitialFirstSet()" class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">โหลดชุดศัพท์เริ่มต้น</button>
             </div>
 
             <!-- Game Grid Layout -->
@@ -612,8 +602,8 @@
             <!-- Success modal (In-game overlays) -->
             <div id="match-success-overlay" class="hidden bg-emerald-50 border border-emerald-200 p-6 rounded-3xl text-center space-y-3">
                 <div class="text-4xl">🎉</div>
-                <h4 class="text-xl font-bold text-emerald-900">จับคู่สำเร็จเสร็จสิ้น !</h4>
-                <p class="text-emerald-700 text-sm">คุณใช้เวลาในการเคลียร์บอร์ดนี้ไปทั้งหมด : <span id="match-final-time" class="font-extrabold text-slate-900">0s</span></p>
+                <h4 class="text-xl font-bold text-emerald-900 font-bold">จับคู่สำเร็จเสร็จสิ้น !</h4>
+                <p class="text-emerald-700 text-sm font-normal">คุณใช้เวลาในการเคลียร์บอร์ดนี้ไปทั้งหมด : <span id="match-final-time" class="font-extrabold text-slate-900">0s</span></p>
                 <button onclick="initMatchGame()" class="bg-emerald-600 text-white px-5 py-2.5 rounded-xl font-semibold text-sm">ท้าทายใหม่อีกรอบ</button>
             </div>
         </section>
@@ -623,7 +613,7 @@
             <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-900 font-semibold">คลังคำศัพท์ของฉัน</h2>
-                    <p class="text-slate-500 text-sm">จัดการคำศัพท์ของคุณในแบบปรับแต่งเอง สามารถเพิ่ม ค้นหา หรือลบคำศัพท์ได้ตามชอบ</p>
+                    <p class="text-slate-500 text-sm font-normal">จัดการคำศัพท์ของคุณในแบบปรับแต่งเอง สามารถเพิ่ม ค้นหา หรือลบคำศัพท์ได้ตามชอบ</p>
                 </div>
                 <div class="flex flex-wrap gap-2 w-full sm:w-auto">
                     <input type="text" id="vocab-search-input" oninput="searchVocabulary()" placeholder="ค้นหาคำศัพท์/คำแปล..." class="flex-grow sm:flex-initial text-sm bg-white border border-slate-200 px-4 py-2.5 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500">
@@ -634,19 +624,15 @@
             </div>
 
             <!-- Preset Pack Actions -->
-            <div class="bg-slate-100/50 rounded-2xl p-4 border border-slate-200/50 flex flex-wrap gap-3 items-center">
-                <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">โคลนชุดคำศัพท์ด่วน : </span>
-                <button onclick="loadPresetDeck('firstSet')" class="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 text-xs px-3.5 py-2 rounded-xl font-semibold shadow-sm">
-                    ⭐ ศัพท์ชุดแรกของฉัน (42 คำ)
-                </button>
-                <button onclick="loadPresetDeck('general')" class="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 text-xs px-3.5 py-2 rounded-xl font-semibold shadow-sm">
-                    🗣️ General Vocab (30 คำ)
-                </button>
-                <button onclick="loadPresetDeck('toeic')" class="bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 text-xs px-3.5 py-2 rounded-xl font-semibold shadow-sm">
-                    💼 TOEIC/Business (30 คำ)
-                </button>
+            <div class="bg-slate-100/50 rounded-2xl p-4 border border-slate-200/50 flex flex-wrap gap-3 items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <span class="text-xs text-slate-500 font-bold uppercase tracking-wider">ระบบจัดการคลัง : </span>
+                    <button onclick="resetToInitialFirstSet()" class="bg-white hover:bg-slate-100 text-slate-800 border border-slate-200 text-xs px-3.5 py-2 rounded-xl font-bold shadow-sm transition-all" title="กู้คืนคลังคำศัพท์เริ่มต้นจำนวน 61 คำ">
+                        🔄 รีเซ็ตคลังคำศัพท์เริ่มต้น (61 คำ)
+                    </button>
+                </div>
                 <button onclick="clearAllWords()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 border border-rose-200 text-xs px-3.5 py-2 rounded-xl font-semibold shadow-sm ml-auto">
-                    ⚠️ ล้างคลังคำศัพท์ทั้งหมด
+                    ⚠️ ล้างคำศัพท์ทั้งหมด
                 </button>
             </div>
 
@@ -674,7 +660,7 @@
                 <div id="table-empty-state" class="hidden p-12 text-center space-y-3">
                     <div class="text-4xl">🏷️</div>
                     <h4 class="font-bold text-slate-800 text-lg font-semibold">ยังไม่มีคำศัพท์ใด ๆ ในคลังของคุณ</h4>
-                    <p class="text-slate-400 text-xs max-w-sm mx-auto">ลองกดนำเข้าชุดคำศัพท์แนะนำเพื่อสัมผัสและเริ่มใช้งานฟังก์ชันระบบได้ทันที</p>
+                    <p class="text-slate-400 text-xs max-w-sm mx-auto font-normal">ลองกดปุ่มด้านบนเพื่อกู้คืนชุดคลังคำศัพท์เริ่มต้น 61 คำ สำหรับเริ่มศึกษาและใช้งานระบบได้ทันที</p>
                 </div>
             </div>
         </section>
@@ -699,22 +685,22 @@
                 
                 <div>
                     <label for="modal-input-word" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">คำศัพท์ภาษาอังกฤษ *</label>
-                    <input type="text" id="modal-input-word" placeholder="เช่น Accomplish" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="modal-input-word" placeholder="เช่น Accomplish" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold">
                 </div>
 
                 <div>
                     <label for="modal-input-definition" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">ความหมายภาษาไทย *</label>
-                    <input type="text" id="modal-input-definition" placeholder="เช่น ทำงานสำเร็จลุล่วง, บรรลุผล" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="modal-input-definition" placeholder="เช่น ทำงานสำเร็จลุล่วง, บรรลุผล" required class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold">
                 </div>
 
                 <div>
                     <label for="modal-input-ipa" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">คำอ่านภาษาอังกฤษ (ถ้ามี)</label>
-                    <input type="text" id="modal-input-ipa" placeholder="เช่น /əˈkʌm.plɪʃ/" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="text" id="modal-input-ipa" placeholder="เช่น /əˈkʌm.plɪʃ/" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold">
                 </div>
 
                 <div>
                     <label for="modal-input-example" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">ตัวอย่างประโยคประกอบความเข้าใจ (ถ้ามี)</label>
-                    <textarea id="modal-input-example" rows="2" placeholder="เช่น You can accomplish anything with hard work." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+                    <textarea id="modal-input-example" rows="2" placeholder="เช่น You can accomplish anything with hard work." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 font-semibold"></textarea>
                 </div>
 
                 <!-- Action Button -->
@@ -728,9 +714,8 @@
 
     <!-- JavaScript Control Block -->
     <script>
-        // Default Sample Decks Data
+        // Default Sample Decks Data (Consolidated Custom 61 TOEIC words)
         const PRESET_DECKS = {
-            // Updated custom user deck (42 vocabularies) with default SRS metrics
             firstSet: [
                 { id: "fs-1", word: "Prevent", definition: "ป้องกัน", ipa: "/prɪˈvent/", example: "Regular exercises can help prevent many health issues.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-2", word: "Contribute", definition: "มีส่วนร่วม/ให้", ipa: "/kənˈtrɪb.juːt/", example: "We are encouraged to contribute ideas to the project development.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
@@ -744,7 +729,7 @@
                 { id: "fs-10", word: "Rug", definition: "พรม", ipa: "/rʌɡ/", example: "She placed a small woolen rug next to the office desk.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-11", word: "Hanging/Suspend", definition: "แขวน", ipa: "/ˈhæŋ.ɪŋ/ / /səˈspend/", example: "A group of vintage frames are hanging on the office wall.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-12", word: "Against", definition: "ติดอยู่กับ", ipa: "/əˈɡenst/", example: "Please put the temporary partition panels against the window.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "fs-13", word: "Notice", definition: "ประกาศ/สังเกต", ipa: "/ˈnəʊ.tɪs/", example: "Did you notice any system alerts during the process execution?", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-13", word: "Notice", definition: "ประกาศ/สังเกต", ipa: "/ˈnəʊ.tɪs/", example: "Did you notice any system alerts during the process execution.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-14", word: "Drawer", definition: "ลิ้นชัก", ipa: "/drɔːr/", example: "The contracts and key papers are stored in the second drawer.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-15", word: "Take off", definition: "ถอดออก", ipa: "/teɪk ɒf/", example: "We request visitors to take off their shoes before entering.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-16", word: "Fence", definition: "รั้ว", ipa: "/fens/", example: "They installed a high steel fence around the factory property.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
@@ -754,7 +739,7 @@
                 { id: "fs-20", word: "Binder", definition: "แฟ้มเอกสาร", ipa: "/ˈbaɪn.dər/", example: "She organized the client specifications in a blue binder.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-21", word: "Overlook", definition: "มองข้าม", ipa: "/ˌəʊ.vəˈlʊk/", example: "We must not overlook any structural flaws during inspection.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-22", word: "Mounted", definition: "ถูกติด", ipa: "/ˈmaʊn.tɪd/", example: "The display system was mounted securely on the steel column.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "fs-23", word: "Aisle", definition: "/aɪl/", example: "Please keep the central aisle clear of any storage boxes.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-23", word: "Aisle", definition: "ทางเดิน", ipa: "/aɪl/", example: "Please keep the central aisle clear of any storage boxes.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-24", word: "Cushions", definition: "หมอนอิง", ipa: "/ˈkʊʃ.ənz/", example: "We added comfortable grey cushions to the reception sofa.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-25", word: "Garage", definition: "โรงจอดรถ", ipa: "/ˈɡær.ɑːʒ/", example: "The company vehicles are parked in the underground garage.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-26", word: "Ceiling", definition: "เพดาน", ipa: "/ˈsiː.lɪŋ/", example: "The maintenance workers are repairing the ceiling lights.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
@@ -773,71 +758,27 @@
                 { id: "fs-39", word: "Give a tour", definition: "พาเดินดู", ipa: "/ɡɪv ə tʊər/", example: "The host will give a tour of the laboratory facility.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-40", word: "Appointment", definition: "การนัดหมาย", ipa: "/əˈpɔɪnt.mənt/", example: "I scheduled an official appointment with the client.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
                 { id: "fs-41", word: "Admit", definition: "ตอบรับ", ipa: "/ədˈmɪt/", example: "They finally admitted that the timeline was too tight.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "fs-42", word: "Enclose", definition: "ห้อมล้อม/โอบล้อม", ipa: "/ɪnˈkləʊz/", example: "They plan to enclose the garden with a brick wall.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 }
-            ],
-            general: [
-                { id: "gen-1", word: "Abandon", definition: "ละทิ้ง, ปล่อยทิ้ง", ipa: "/əˈbæn.dən/", example: "He decided to abandon the project.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-2", word: "Benevolent", definition: "เมตตากรุณา, ใจดี", ipa: "/bəˈnev.əl.ənt/", example: "A benevolent donor funded the school.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-3", word: "Cooperate", definition: "ร่วมมือ, ประสานงาน", ipa: "/koʊˈɑː.pə.reɪt/", example: "Teams need to cooperate to win.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-4", word: "Devote", definition: "อุทิศตน, มอบให้", ipa: "/dɪˈvoʊt/", example: "She devoted her life to art.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-5", word: "Efficient", definition: "มีประสิทธิภาพสูง", ipa: "/ɪˈfɪʃ.ənt/", example: "This system is highly efficient.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-6", word: "Fascinating", definition: "น่าดึงดูดใจ, น่าหลงใหล", ipa: "/ˈfæs.ən.eɪ.tɪŋ/", example: "The history of Egypt is fascinating.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-7", word: "Genuine", definition: "แท้จริง, แท้", ipa: "/ˈdʒen.ju.ɪn/", example: "This is genuine leather.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-8", word: "Hazardous", definition: "เป็นอันตราย, เสี่ยงภัย", ipa: "/ˈhæz.ɚ.dəs/", example: "Toxic waste is hazardous to health.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-9", word: "Imitate", definition: "เลียนแบบ, ทำตามอย่าง", ipa: "/ˈɪm.ə.teɪt/", example: "Parrots can imitate human voices.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-10", word: "Jealous", definition: "อิจฉา, ขี้หึง", ipa: "/ˈdʒel.əs/", example: "He grew jealous of his friend.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-11", word: "Knowledgeable", definition: "รอบรู้, มีความรู้กว้างขวาง", ipa: "/ˈnɑː.lɪ.dʒə.bəl/", example: "Our guide was very knowledgeable.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-12", word: "Lucrative", definition: "สร้างกำไรงาม, มีผลตอบแทนสูง", ipa: "/ˈluː.krə.t̬ɪv/", example: "The business proved to be lucrative.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-13", word: "Maintain", definition: "รักษาไว้, ดูแลคงอยู่", ipa: "/meɪnˈteɪn/", example: "You should maintain your car well.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-14", word: "Negotiate", definition: "เจรจาต่อรอง", ipa: "/nəˈɡoʊ.ʃi.eɪt/", example: "We negotiated a fair settlement.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-15", word: "Obvious", definition: "เด่นชัด, ชัดเจนมาก", ipa: "/ˈɑːb.vi.əs/", example: "There is an obvious error here.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-16", word: "Plausible", definition: "น่าเชื่อถือ, สมเหตุสมผล", ipa: "/ˈplɑː.zə.bəl/", example: "His story sounds plausible.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-17", word: "Reliable", definition: "เชื่อถือได้, วางใจได้", ipa: "/rɪˈlaɪ.ə.bəl/", example: "She is a reliable employee.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-18", word: "Sufficient", definition: "พอเพียง, เพียงพอ", ipa: "/səˈfɪʃ.ənt/", example: "Five hours of sleep is not sufficient.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-19", word: "Thrive", definition: "เจริญงอกงาม, เติบโตดี", ipa: "/θraɪv/", example: "Children thrive with proper nourishment.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-20", word: "Vague", definition: "คลุมเครือ, ไม่ชัดเจน", ipa: "/veɪɡ/", example: "She gave a vague description.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-21", word: "Withstand", definition: "ทนทาน, ต้านทานต่อ", ipa: "/wɪðˈstænd/", example: "Concrete structures withstand earthquakes.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-22", word: "Yawn", definition: "หาวนอน", ipa: "/jɑːn/", example: "The boring speech made her yawn.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-23", word: "Zealous", definition: "กระตือรือร้น, มีไฟเต็มเปี่ยม", ipa: "/ˈzel.əs/", example: "The zealous youth supported reform.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-24", word: "Abolish", definition: "ล้มเลิก, ยกเลิกอย่างสิ้นเชิง", ipa: "/əˈbɑː.lɪʃ/", example: "Slavery was abolished in 1865.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-25", word: "Bewilder", definition: "ทำให้งุนงงสับสน", ipa: "/bɪˈwɪl.dɚ/", example: "The math exam bewildered her.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-26", word: "Concrete", definition: "เป็นรูปธรรม, คอนกรีต", ipa: "/ˈkɑːn.kriːt/", example: "We need concrete proof first.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-27", word: "Drastic", definition: "รุนแรงกระทันหัน, เด็ดขาด", ipa: "/ˈdræs.tɪk/", example: "They made drastic changes overnight.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-28", word: "Eccentric", definition: "แปลกประหลาด, พิสดาร", ipa: "/ɪkˈsen.trɪk/", example: "An eccentric inventor lived next door.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-29", word: "Flexible", definition: "ยืดหยุ่นได้ดี, ดัดง่าย", ipa: "/ˈflek.sə.bəl/", example: "A flexible work schedule is great.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "gen-30", word: "Gratitude", definition: "ความรู้สึกกตัญญู, ขอบคุณ", ipa: "/ˈɡræt̬.ə.tuːd/", example: "Express your gratitude to your peers.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 }
-            ],
-            toeic: [
-                { id: "toe-1", word: "Adjourn", definition: "เลื่อนเวลาออกไป, พักการประชุม", ipa: "/əˈdʒɝːn/", example: "The board adjourned the meeting until Monday.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-2", word: "Brokerage", definition: "ค่านายหน้า, ธุรกิจนายหน้า", ipa: "/ˈbroʊ.kər.ɪdʒ/", example: "The brokerage handles stock trading.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-3", word: "Collaborate", definition: "ร่วมงานกัน, จับมือทำงานร่วม", ipa: "/kəˈlæb.ə.reɪt/", example: "They collaborate with foreign developers.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-4", word: "Deficit", definition: "การขาดดุล, ปริมาณขาดทุน", ipa: "/ˈdef.ə.sɪt/", example: "The company reported a trade deficit.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-5", word: "Endorse", definition: "สลักหลัง, ให้การรับรองอนุมัติ", ipa: "/ɪnˈdɔːrs/", example: "Celebrities endorse this new product.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-6", word: "Fluctuate", definition: "ผันผวน, ขึ้น ๆ ลง ๆ ไม่คงที่", ipa: "/ˈflʌk.tʃu.eɪt/", example: "Oil prices fluctuate on international markets.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-7", word: "Guarantee", definition: "การรับประกัน, สัญญาประกัน", ipa: "/ˌɡær.ənˈtiː/", example: "We guarantee the machine for one year.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-8", word: "Incentive", definition: "สิ่งกระตุ้นจูงใจ, เงินโบนัสพิเศษ", ipa: "/ɪnˈsen.t̬ɪv/", example: "The company offers bonus incentives.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-9", word: "Jeopardize", definition: "ทำให้ตกอยู่ในความเสี่ยงอันตราย", ipa: "/ˈdʒep.ɚ.daɪz/", example: "Bad decisions could jeopardize the deal.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-10", word: "Liability", definition: "หนี้สิน, ความรับผิดชอบตามกฎหมาย", ipa: "/ˌlaɪ.əˈbɪl.ə.t̬i/", example: "Insurance covered our legal liability.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-11", word: "Merger", definition: "การควบรวมกิจการเข้าด้วยกัน", ipa: "/ˈmɝː.dʒɚ/", example: "The merger of the two companies failed.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-12", word: "Nominate", definition: "เสนอชื่อเข้ารับตำแหน่ง", ipa: "/ˈnɑː.mə.neɪt/", example: "She nominated him as director.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-13", word: "Outsource", definition: "จัดจ้างบุคคลภายนอกทำงานแทน", ipa: "/ˈaʊt.sɔːrs/", example: "We outsource our billing department.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-14", word: "Portfolio", definition: "ผลงานสะสม, แฟ้มผลงาน", ipa: "/pɔːrtˈfoʊ.li.oʊ/", example: "His investment portfolio is diversified.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-15", word: "Quota", definition: "โควตา, สัดส่วนจำนวนขั้นต่ำ", ipa: "/ˈkwoʊ.t̬ə/", example: "The import quota has been reached.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-16", word: "Revenue", definition: "รายได้ทั้งหมดของบริษัท", ipa: "/ˈrev.ə.nuː/", example: "Annual revenue increased by fifteen percent.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-17", word: "Stipulate", definition: "ระบุเงื่อนไขข้อตกลงอย่างเป็นทางการ", ipa: "/ˈstɪp.jə.leɪt/", example: "The contract stipulates a delivery date.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-18", word: "Transaction", definition: "ธุรกรรมทางการเงิน", ipa: "/trænˈzæk.ʃən/", example: "They finalized the bank transaction.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-19", word: "Unanimous", definition: "มีมติเป็นเอกฉันท์, เป็นเสียงเดียวกัน", ipa: "/juːˈnæn.ə.məs/", example: "The board reached a unanimous decision.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-20", word: "Vacancy", definition: "ตำแหน่งงานที่ว่าง", ipa: "/ˈveɪ.kən.si/", example: "There is a job vacancy at the bank.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-21", word: "Warranty", definition: "ใบรับประกันคุณภาพสินค้า", ipa: "/ˈwɔːr.ən.t̬i/", example: "The TV is under a two-year warranty.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-22", word: "Yield", definition: "ผลผลิต, อัตราผลตอบแทน", ipa: "/jiːld/", example: "The government bonds yield good returns.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-23", word: "Acquisition", definition: "การซื้อกิจการ, การได้มาครอบครอง", ipa: "/ˌæk.wəˈzɪʃ.ən/", example: "The company's new acquisition was costly.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-24", word: "Budget", definition: "งบประมาณประจำปี", ipa: "/ˈbʌdʒ.ɪt/", example: "The marketing budget is very tight.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-25", word: "Delegation", definition: "คณะผู้แทน, คณะตัวแทน", ipa: "/ˌdel.əˈɡeɪ.ʃən/", example: "A Chinese delegation arrived yesterday.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-26", word: "Evaluate", definition: "ประเมินค่า, ประเมินผลงาน", ipa: "/ɪˈvæl.ju.eɪt/", example: "We must evaluate our progress weekly.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-27", word: "Forecast", definition: "พยากรณ์คาดเดาความคืบหน้า", ipa: "/ˈfɔːr.kæst/", example: "The sales forecast is very positive.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-28", word: "Inventory", definition: "สินค้าคงคลัง, บัญชีสินค้าเหลือง", ipa: "/ˈɪn.vən.tɔːr.i/", example: "We take inventory of supplies every month.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-29", word: "Monopolize", definition: "ผูกขาดตลาดทางการค้า", ipa: "/məˈnɑː.pəl.aɪz/", example: "They seek to monopolize the tech industry.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
-                { id: "toe-30", word: "Overtime", definition: "ทำงานล่วงเวลา, ค่าล่วงเวลา", ipa: "/ˈoʊ.vɚ.taɪm/", example: "They worked overtime to finish the job.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 }
+                { id: "fs-42", word: "Enclose", definition: "ห้อมล้อม/โอบล้อม", ipa: "/ɪnˈkləʊz/", example: "They plan to enclose the garden with a brick wall.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                // 19 New Added Vocabularies
+                { id: "fs-43", word: "Deserve", definition: "สมควรได้รับ", ipa: "/dɪˈzɝːv/", example: "Your hard work deserves a great TOEIC score result.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-44", word: "Walk you", definition: "พาไปดู", ipa: "/wɔːk juː/", example: "I will walk you through the newly renovated corporate office.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-45", word: "Reimbursement", definition: "การเบิก/การขอเงินคืน", ipa: "/ˌriː.ɪmˈbɝːs.mənt/", example: "Please submit all expense receipts to process your reimbursement.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-46", word: "Authorize", definition: "อนุมัติ/approve", ipa: "/ˈaʊ.θə.raɪz/", example: "Only the regional director can authorize this budget adjustment.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-47", word: "Authority", definition: "เจ้าหน้าที่", ipa: "/əˈθɔːr.ə.t̬i/", example: "We must report the warehouse security incident to the local authority.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-48", word: "Expense", definition: "ค่าใช้จ่าย", ipa: "/ɪkˈspens/", example: "The travel expenses will be covered entirely by our company.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-49", word: "Accommodation", definition: "ที่พัก", ipa: "/əˌkɑː.məˈdeɪ.ʃən/", example: "The hotel accommodation was arranged by the event organizing team.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-50", word: "Supervisor", definition: "ผู้ดูแล/หัวหน้างาน", ipa: "/ˈsuː.pɚ.vaɪ.zɚ/", example: "You should discuss the project timeline changes with your supervisor.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-51", word: "Meteorology", definition: "กรมอุตุนิยมวิทยา", ipa: "/ˌmiː.t̬i.əˈrɑː.lə.dʒi/", example: "The department of meteorology issued a severe weather warning.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-52", word: "Shipping", definition: "การขนส่ง", ipa: "/ˈʃɪp.ɪŋ/", example: "We need to confirm the shipping costs before placing the bulk order.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-53", word: "Manufacturing", definition: "การผลิต", ipa: "/ˌmæn.jəˈfæk.tʃɚ.ɪŋ/", example: "The manufacturing facility is located just outside of Bangkok.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-54", word: "Hospitality", definition: "การโรงแรม", ipa: "/ˌhɑː.spɪˈtæl.ə.t̬i/", example: "Many students in Thailand choose to study hospitality management.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-55", word: "Deck", definition: "ดาดฟ้าเรือ", ipa: "/dek/", example: "The passengers gathered on the upper deck to watch the sunset.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-56", word: "Uneventful", definition: "ไม่น่าตื่นเต้น/เรื่อย ๆ ", ipa: "/ˌʌn.ɪˈvent.fəl/", example: "Our business trip was mostly uneventful and went smoothly.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-57", word: "Harbor", definition: "ท่าเรือ", ipa: "/ˈhɑːr.bɚ/", example: "Several cargo ships are currently anchored in the harbor.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-58", word: "Port", definition: "ท่าเรือ", ipa: "/pɔːrt/", example: "The port of Bangkok handles thousands of containers every day.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-59", word: "Lift", definition: "ยกขึ้น", ipa: "/lɪft/", example: "Please use proper lifting techniques to lift these heavy boxes.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-60", word: "Inspection", definition: "การตรวจสอบ", ipa: "/ɪnˈspek.ʃən/", example: "The annual safety inspection is scheduled for next Thursday.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 },
+                { id: "fs-61", word: "Terrace", definition: "ระเบียง", ipa: "/ˈter.əs/", example: "The office canteen has a beautiful terrace overlooking the park.", status: "new", reviewCount: 0, easeFactor: 2.5, interval: 0, nextReviewDate: 0 }
             ]
         };
 
@@ -847,7 +788,7 @@
         let isCardFlipped = false;
         
         // SRS and Filter options for Flashcards
-        let currentFlashcardFilter = 'due'; // 'due' (only words with nextReviewDate <= now) or 'all'
+        let currentFlashcardFilter = 'due'; // 'due' or 'all'
         let isListeningModeActive = false;
         let listeningChecked = false;
 
@@ -872,16 +813,20 @@
             quizzesPassed: 0
         };
 
+        // Daily Schedule Session Checklist Status
+        let dailySessions = {
+            morning: false,
+            noon: false,
+            night: false,
+            lastResetDate: ""
+        };
+
         // Initialize application
         window.addEventListener('DOMContentLoaded', () => {
             loadFromLocalStorage();
-            if (appWords.length === 0) {
-                // Pre-populate with our newly loaded First Custom Set initially
-                appWords = [...PRESET_DECKS.firstSet];
-                saveToLocalStorage();
-            }
             // Sanitize checking to guarantee SRS fields exist in older records
             sanitizeWordsSRSData();
+            checkAndResetDailySessions();
             updateAllStats();
             switchView('dashboard');
             
@@ -911,6 +856,7 @@
                 if (w.easeFactor === undefined) { w.easeFactor = 2.5; modified = true; }
                 if (w.interval === undefined) { w.interval = 0; modified = true; }
                 if (w.nextReviewDate === undefined) { w.nextReviewDate = 0; modified = true; }
+                if (w.deck === undefined) { w.deck = 'firstSet'; modified = true; }
             });
             if (modified) {
                 saveToLocalStorage();
@@ -921,14 +867,60 @@
         function saveToLocalStorage() {
             localStorage.setItem('vocab_booster_words', JSON.stringify(appWords));
             localStorage.setItem('vocab_booster_goals', JSON.stringify(dailyGoals));
+            localStorage.setItem('vocab_booster_sessions', JSON.stringify(dailySessions));
         }
 
-        // Load data from LocalStorage
+        // [Unified Database Migration Sync System]
+        // โหลดข้อมูลอย่างปลอดภัยโดยคงสถิติความก้าวหน้า (SRS) เดิมของผู้เรียนไว้ครบถ้วน
+        // และอัปเกรดนำเข้าคำศัพท์ใหม่ 19 คำเข้าไปในระบบโดยอัตโนมัติหากยังไม่เคยติดตั้ง
         function loadFromLocalStorage() {
             const savedWords = localStorage.getItem('vocab_booster_words');
             const savedGoals = localStorage.getItem('vocab_booster_goals');
-            if (savedWords) appWords = JSON.parse(savedWords);
+            const savedSessions = localStorage.getItem('vocab_booster_sessions');
+            
             if (savedGoals) dailyGoals = JSON.parse(savedGoals);
+            if (savedSessions) dailySessions = JSON.parse(savedSessions);
+
+            if (savedWords) {
+                let loaded = JSON.parse(savedWords);
+                let updated = [...loaded];
+
+                // Auto-migration for firstSet (61 words)
+                PRESET_DECKS.firstSet.forEach(presetWord => {
+                    const exists = updated.some(w => w.word.toLowerCase() === presetWord.word.toLowerCase());
+                    if (!exists) {
+                        updated.push({...presetWord});
+                    }
+                });
+                appWords = updated;
+            } else {
+                // ติดตั้งครั้งแรก : โหลด 61 ศัพท์เริ่มต้นเข้าระบบ
+                appWords = [...PRESET_DECKS.firstSet.map(w => ({...w}))];
+                saveToLocalStorage();
+            }
+        }
+
+        // Check if day has changed and reset sessions checkmarks
+        function checkAndResetDailySessions() {
+            const todayStr = new Date().toISOString().split('T')[0];
+            if (dailySessions.lastResetDate !== todayStr) {
+                dailySessions.morning = false;
+                dailySessions.noon = false;
+                dailySessions.night = false;
+                dailySessions.lastResetDate = todayStr;
+                saveToLocalStorage();
+            }
+
+            // Sync with UI checkboxes
+            document.getElementById('session-morning').checked = dailySessions.morning;
+            document.getElementById('session-noon').checked = dailySessions.noon;
+            document.getElementById('session-night').checked = dailySessions.night;
+        }
+
+        function toggleSession(sessionKey) {
+            const checkbox = document.getElementById(`session-${sessionKey}`);
+            dailySessions[sessionKey] = checkbox.checked;
+            saveToLocalStorage();
         }
 
         // View Navigator
@@ -975,6 +967,7 @@
 
             // View-specific loaders
             if (viewId === 'dashboard') {
+                checkAndResetDailySessions();
                 updateAllStats();
             } else if (viewId === 'flashcards') {
                 initFlashcards();
@@ -985,6 +978,11 @@
             } else if (viewId === 'wordlist') {
                 renderWordList();
             }
+        }
+
+        // Study Redirect Action
+        function selectDeckAndStudy(deckType) {
+            switchView('flashcards');
         }
 
         // Update Statistics
@@ -1002,6 +1000,9 @@
             document.getElementById('stat-due-words').innerText = due;
             document.getElementById('stat-mastered-words').innerText = mastered;
             document.getElementById('stat-mastery-rate').innerText = `${rate}%`;
+
+            // Update dashboard deck summary count
+            document.getElementById('dashboard-deck-count').innerText = `${total} คำศัพท์`;
 
             // Daily Goals Render
             document.getElementById('goal-flashcard-text').innerText = `${dailyGoals.flashcardsDone}/10 ใบ`;
@@ -1083,7 +1084,8 @@
                     reviewCount: 0,
                     easeFactor: 2.5,
                     interval: 0,
-                    nextReviewDate: 0
+                    nextReviewDate: 0,
+                    deck: 'firstSet'
                 };
                 appWords.unshift(newObj);
             }
@@ -1101,27 +1103,29 @@
             renderWordList();
         }
 
-        function loadPresetDeck(deckType) {
-            const preset = PRESET_DECKS[deckType];
-            if (!preset) return;
+        // Recover 61 items starting pool
+        function resetToInitialFirstSet() {
+            if (confirm("ต้องการรีเซ็ตคลังคำศัพท์กลับคืนเป็นชุดตั้งต้นจำนวน 61 คำ ใช่หรือไม่ ? (สถิติการทบทวนของคำศัพท์เดิมจะถูกรีเซ็ตใหม่ทั้งหมด)")) {
+                appWords = [...PRESET_DECKS.firstSet.map(w => ({...w}))];
+                saveToLocalStorage();
+                updateAllStats();
+                renderWordList();
+                
+                // Simple toast response
+                const showMessage = document.createElement('div');
+                showMessage.className = "fixed bottom-5 right-5 bg-slate-900 text-white text-sm px-4 py-2.5 rounded-xl z-50 shadow-lg border border-slate-700";
+                showMessage.innerText = "กู้คืนชุดคลังคำศัพท์ตั้งต้น 61 คำ สำเร็จ";
+                document.body.appendChild(showMessage);
+                setTimeout(() => showMessage.remove(), 2500);
 
-            // Clear and overwrite with chosen preset to keep it clean, or merge
-            appWords = [...preset];
-
-            saveToLocalStorage();
-            updateAllStats();
-            renderWordList();
-            
-            // Simple visual response
-            const showMessage = document.createElement('div');
-            showMessage.className = "fixed bottom-5 right-5 bg-slate-900 text-white text-sm px-4 py-2.5 rounded-xl z-50 shadow-lg border border-slate-700";
-            showMessage.innerText = `นำเข้าหมวดหมู่ ${deckType.toUpperCase()} สำเร็จ เรียบร้อย !`;
-            document.body.appendChild(showMessage);
-            setTimeout(() => showMessage.remove(), 2500);
+                if (document.getElementById('view-flashcards').classList.contains('hidden') === false) {
+                    initFlashcards();
+                }
+            }
         }
 
         function clearAllWords() {
-            if (confirm("ต้องการล้างคลังคำศัพท์ทั้งหมดในระบบ ใช่หรือไม่?")) {
+            if (confirm("ต้องการล้างคลังคำศัพท์ทั้งหมดในระบบ ใช่หรือไม่ ?")) {
                 appWords = [];
                 saveToLocalStorage();
                 updateAllStats();
@@ -1140,7 +1144,14 @@
             const emptyState = document.getElementById('table-empty-state');
             tbody.innerHTML = '';
 
-            const filtered = appWords.filter(w => 
+            const listDeckFilter = document.getElementById('wordlist-deck-filter')?.value || 'all';
+
+            let targetWords = appWords;
+            if (listDeckFilter !== 'all') {
+                targetWords = appWords.filter(w => w.deck === listDeckFilter);
+            }
+
+            const filtered = targetWords.filter(w => 
                 w.word.toLowerCase().includes(filterQuery) || 
                 w.definition.toLowerCase().includes(filterQuery)
             );
@@ -1167,21 +1178,21 @@
                 const nextDate = w.nextReviewDate ? new Date(w.nextReviewDate).toLocaleDateString('th-TH', {day: 'numeric', month: 'short'}) : 'พร้อมทบทวน';
 
                 const tr = document.createElement('tr');
-                tr.className = "hover:bg-slate-50 transition-colors";
+                tr.className = "hover:bg-slate-50 transition-colors font-medium";
                 tr.innerHTML = `
                     <td class="py-4 px-6">
                         <div class="font-bold text-slate-900">${w.word}</div>
                         ${w.ipa ? `<div class="text-xs text-slate-400 font-mono mt-0.5">${w.ipa}</div>` : ''}
                     </td>
-                    <td class="py-4 px-6 text-slate-700">${w.definition}</td>
-                    <td class="py-4 px-6 text-slate-500 max-w-xs truncate">${w.example || '-'}</td>
+                    <td class="py-4 px-6 text-slate-700 font-normal">${w.definition}</td>
+                    <td class="py-4 px-6 text-slate-500 max-w-xs truncate font-normal">${w.example || '-'}</td>
                     <td class="py-4 px-6 text-center">
                         <div class="flex flex-col items-center space-y-1">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-semibold border ${badgeStyle}">
                                 ${statusThai}
                             </span>
-                            <span class="text-[10px] text-slate-400">ทบทวนแล้ว : ${srsCount} ครั้ง</span>
-                            <span class="text-[10px] text-indigo-500 font-semibold">กำหนดถัดไป : ${nextDate}</span>
+                            <span class="text-[10px] text-slate-400 font-semibold">ทบทวนแล้ว : ${srsCount} ครั้ง</span>
+                            <span class="text-[10px] text-indigo-500 font-bold">กำหนดถัดไป : ${nextDate}</span>
                         </div>
                     </td>
                     <td class="py-4 px-6 text-right">
@@ -1233,15 +1244,13 @@
         // Spaced Repetition (SRS) Flashcards Logic
         let filteredDeck = [];
 
+        // Filter trigger
         function filterFlashcardDeck() {
-            const filterSelect = document.getElementById('flashcard-filter').value;
-            currentFlashcardFilter = filterSelect;
             initFlashcards();
         }
 
         function setFlashcardFilterToAll() {
             document.getElementById('flashcard-filter').value = 'all';
-            currentFlashcardFilter = 'all';
             initFlashcards();
         }
 
@@ -1251,7 +1260,12 @@
             const filterInfo = document.getElementById('flashcard-deck-type-info');
 
             const now = Date.now();
-            if (currentFlashcardFilter === 'due') {
+            
+            // Filter according to SRS intervals (Due vs All)
+            const selectedSrsFilter = document.getElementById('flashcard-filter').value;
+            currentFlashcardFilter = selectedSrsFilter;
+
+            if (selectedSrsFilter === 'due') {
                 filteredDeck = appWords.filter(w => w.nextReviewDate <= now);
                 filterInfo.innerText = "โหมด : กำลังทบทวนคำศัพท์ที่ถึงกำหนดของวันนี้ (SRS Due)";
             } else {
@@ -1269,10 +1283,10 @@
                 mainContainer.classList.remove('hidden');
             }
 
-            // [SRS Smart Randomization Engine Update]
+            // [SRS Smart Randomization Engine]
             // พัฒนาระบบจัดความน่าจะเป็นเพื่อสุ่มคิวคำศัพท์ทบทวนตามความพร้อมของหน่วยความจำ :
             // 1. นำข้อมูลคำศัพท์มาคำนวณ 'ค่าถ่วงน้ำหนักความยาก' (Difficulty Probability Weight)
-            //    - หากคำศัพท์ต้องการทบทวนทันที (nextReviewDate = 0 หรือถูกกด 'วันนี้' ล่าสุด) จะได้รับคะแนนโบนัส +100
+            //    - หากคำศัพท์ต้องการทบทวนทันที (nextReviewDate = 0 หรือถูกกด 'วันนี้' ล่าสุด) จะได้รับคะแนนโบนัส +120
             //    - คำศัพท์ที่จำยาก (easeFactor น้อย) จะมีโอกาสสุ่มติดมาแสดงผลเร็วกว่า
             //    - คำศัพท์ที่พร้อมทบทวนจริงตามเวลาโค้งการลืมจะได้รับคะแนนสนับสนุน +40
             // 2. นำค่าน้ำหนักมาประมวลผลคูณร่วมกับปัจจัยการสุ่ม (Random Factor)
@@ -1530,7 +1544,7 @@
         }
 
         function resetFlashcardDeck() {
-            if (confirm("คุณต้องการรีเซตสถิติเป้าหมายและรอบทบทวนสำหรับช่วงเวลานี้หรือไม่?")) {
+            if (confirm("คุณต้องการรีเซตสถิติเป้าหมายและรอบทบทวนสำหรับช่วงเวลานี้หรือไม่ ?")) {
                 flashcardIndex = 0;
                 resetCardFlip();
                 renderActiveFlashcard();
